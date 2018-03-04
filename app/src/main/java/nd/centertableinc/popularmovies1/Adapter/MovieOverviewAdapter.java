@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
-import nd.centertableinc.popularmovies1.Data.RecyclerViewItems.OverviewItem;
+import nd.centertableinc.popularmovies1.Data.RecyclerViewItems.MovieItem;
 import nd.centertableinc.popularmovies1.R;
 
 /**
@@ -18,12 +18,12 @@ import nd.centertableinc.popularmovies1.R;
 public class MovieOverviewAdapter extends RecyclerView.Adapter<MovieOverviewAdapter.MoviesOverviewViewHolder>{
     int mNumberItems;
     private Context context;
-    private List<OverviewItem> overviewItems;
+    private List<MovieItem> movieItems;
 
-    public MovieOverviewAdapter(List<OverviewItem> overviewItems, Context context)
+    public MovieOverviewAdapter(List<MovieItem> movieItems, Context context)
     {
         this.context = context;
-        this.overviewItems = overviewItems;
+        this.movieItems = movieItems;
     }
 
     @Override
@@ -36,13 +36,13 @@ public class MovieOverviewAdapter extends RecyclerView.Adapter<MovieOverviewAdap
 
     @Override
     public void onBindViewHolder(MoviesOverviewViewHolder holder, int position) {
-        OverviewItem overviewItem = overviewItems.get(position);
-        holder.bindHolder(overviewItem);
+        MovieItem movieItem = movieItems.get(position);
+        holder.bindHolder(movieItem);
     }
 
     @Override
     public int getItemCount() {
-        return overviewItems.size();
+        return movieItems.size();
     }
 
     public class MoviesOverviewViewHolder extends RecyclerView.ViewHolder
@@ -53,9 +53,9 @@ public class MovieOverviewAdapter extends RecyclerView.Adapter<MovieOverviewAdap
             super(view);
         }
 
-        public void bindHolder(OverviewItem overviewItem)
+        public void bindHolder(MovieItem movieItem)
         {
-            //TODO: use overviewItem as a data source and fill the view from overviewItem model
+            //TODO: use movieItem as a data source and fill the view from movieItem model
         }
 
     }
