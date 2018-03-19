@@ -18,25 +18,37 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/poster_image_view"
-                android:contentDescription="@string/overview_movie_content_description"/>
+                android:contentDescription="@string/overview_movie_content_description"
+                android:gravity="center"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/title_text_view"
-                android:hint="movie title"/>
+                android:hint="movie title"
+                android:gravity="center"
+                />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/vote_average_text_view"
-                android:hint="movie vote"/>
+                android:hint="movie vote"
+                android:gravity="center"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/popularity_text_view"
+                android:hint="movie popularity"
+                android:gravity="center"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/overview_text_view"
                 android:hint="movie overview"
+                android:gravity="center"
                 android:visibility="gone"/>
 
         </LinearLayout>

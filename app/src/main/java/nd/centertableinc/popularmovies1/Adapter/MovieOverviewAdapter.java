@@ -1,16 +1,20 @@
 package nd.centertableinc.popularmovies1.Adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import nd.centertableinc.popularmovies1.Activity.MovieOverviewActivity;
-import nd.centertableinc.popularmovies1.Activity.RecyclerViewContainer;
+import nd.centertableinc.popularmovies1.Data.MovieDb;
+import nd.centertableinc.popularmovies1.Interfaces.RecyclerViewContainer;
 import nd.centertableinc.popularmovies1.Data.RecyclerViewItems.MovieItem;
 import nd.centertableinc.popularmovies1.R;
 
@@ -20,13 +24,15 @@ import nd.centertableinc.popularmovies1.R;
 
 public class MovieOverviewAdapter extends RecyclerView.Adapter<MovieOverviewAdapter.MoviesOverviewViewHolder>{
     int mNumberItems;
-    private RecyclerViewContainer context;
+    private Context context;
+    private RecyclerViewContainer recyclerViewContainer;
     private List<MovieItem> movieItems;
 
-    public MovieOverviewAdapter(RecyclerViewContainer context, List<MovieItem> movieItems)
+    public MovieOverviewAdapter(Context context, RecyclerViewContainer recyclerViewContainer, List<MovieItem> movieItems)
     {
         this.context = context;
         this.movieItems = movieItems;
+        this.recyclerViewContainer = recyclerViewContainer;
 
     }
 
@@ -51,21 +57,25 @@ public class MovieOverviewAdapter extends RecyclerView.Adapter<MovieOverviewAdap
 
     public class MoviesOverviewViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
+        ImageView poster;
         TextView title;
         TextView voteAverage;
         TextView overview;
+        TextView popularity;
 
         @Override
         public void onClick(View view) {
-            context.onCustomClickListener(getAdapterPosition());
+            recyclerViewContainer.onCustomClickListener(getAdapterPosition());
         }
 
         public MoviesOverviewViewHolder(View view)
         {
             super(view);
+            poster = view.findViewById(R.id.poster_image_view);
             title = view.findViewById(R.id.title_text_view);
             voteAverage = view.findViewById(R.id.vote_average_text_view);
             overview = view.findViewById(R.id.overview_text_view);
+            popularity = view.findViewById(R.id.popularity_text_view);
 
             view.setOnClickListener(this);
         }
@@ -75,6 +85,23 @@ public class MovieOverviewAdapter extends RecyclerView.Adapter<MovieOverviewAdap
             title.setText(movieItem.getTitle());
             voteAverage.setText(String.valueOf(movieItem.getVoteAverage()));
             overview.setText(movieItem.getOverview());
+            popularity.setText(String.valueOf(movieItem.getPopularity()));
+
+            String imgUrl = getImageUrl(movieItem.getPosterPath());
+            Picasso.with(context).load(imgUrl).into(poster);
+        }
+
+        private String getImageUrl(String imageName)
+        {
+            Uri.Builder builder = new Uri.Builder();
+            builder.scheme("http")
+                    .authority(MovieDb.POSTER_BASE_URL)
+                    .appendPath(MovieDb.POSTER_T)
+                    .appendPath(MovieDb.POSTER_P)
+                    .appendPath(MovieDb.POSTER_W780)
+                    .appendEncodedPath(imageName);
+
+            return builder.build().toString();
         }
 
     }
