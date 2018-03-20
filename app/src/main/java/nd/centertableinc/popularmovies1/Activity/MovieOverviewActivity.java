@@ -1,5 +1,6 @@
 package nd.centertableinc.popularmovies1.Activity;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -31,9 +32,12 @@ public class MovieOverviewActivity extends AppCompatActivity implements Recycler
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         movieItems = new ArrayList<>();
 
         recyclerView = findViewById(R.id.movie_overview_recycler_view);
+
+        setRecyclerViewLayoutManager(getResources().getConfiguration());
 
         movieDb = new MovieDb(this, this, getResources().getString(R.string.api_key));
 
@@ -43,11 +47,15 @@ public class MovieOverviewActivity extends AppCompatActivity implements Recycler
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
+        setRecyclerViewLayoutManager(newConfig);
+    }
 
+    private void setRecyclerViewLayoutManager(Configuration config)
+    {
         // Checks the orientation of the screen
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
-        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+        if (config.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
+        } else if (config.orientation == Configuration.ORIENTATION_PORTRAIT){
             recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         }
     }
@@ -72,9 +80,11 @@ public class MovieOverviewActivity extends AppCompatActivity implements Recycler
     @Override
     public void onCustomClickListener(int itemPosition)
     {
-        //TODO: start MovieDetailsActivity here
         if(movieItems != null)
-            Toast.makeText(this, movieItems.get(itemPosition).getOrigTitle(), Toast.LENGTH_SHORT).show();
+            MovieItemUtil.setSelectedMovieItem(movieItems.get(itemPosition));
+
+        Intent intent = new Intent(this, MovieDetailsActivity.class);
+        startActivity(intent);
     }
 
     public void requestTheMostPopularMovies(int page)

@@ -16,6 +16,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import nd.centertableinc.popularmovies1.Data.MovieDb;
+import nd.centertableinc.popularmovies1.Data.Utils.MovieItemUtil;
 import nd.centertableinc.popularmovies1.Interfaces.RecyclerViewContainer;
 import nd.centertableinc.popularmovies1.Data.RecyclerViewItems.MovieItem;
 import nd.centertableinc.popularmovies1.R;
@@ -67,7 +68,6 @@ public class MovieOverviewAdapter extends RecyclerView.Adapter<MovieOverviewAdap
         ImageView poster;
         TextView title;
         TextView voteAverage;
-        TextView overview;
         TextView popularity;
 
         @Override
@@ -81,7 +81,6 @@ public class MovieOverviewAdapter extends RecyclerView.Adapter<MovieOverviewAdap
             poster = view.findViewById(R.id.poster_image_view);
             title = view.findViewById(R.id.title_text_view);
             voteAverage = view.findViewById(R.id.vote_average_text_view);
-            overview = view.findViewById(R.id.overview_text_view);
             popularity = view.findViewById(R.id.popularity_text_view);
 
             view.setOnClickListener(this);
@@ -91,30 +90,17 @@ public class MovieOverviewAdapter extends RecyclerView.Adapter<MovieOverviewAdap
         {
             title.setText(movieItem.getTitle());
 
-            String voteAverageString = context.getString(R.string.vote_average) + String.valueOf(movieItem.getVoteAverage());
+            String voteAverageString = context.getString(R.string.vote_average) + ": " + String.valueOf(movieItem.getVoteAverage());
             voteAverage.setText(voteAverageString);
 
-            overview.setText(movieItem.getOverview());
-
-            String popularityString = context.getString(R.string.popularity) + String.valueOf((int)movieItem.getPopularity());
+            String popularityString = context.getString(R.string.popularity) + ": " + String.valueOf((int)movieItem.getPopularity());
             popularity.setText(popularityString);
 
-            String imgUrl = getImageUrl(movieItem.getPosterPath());
+            String imgUrl = MovieItemUtil.getSmallImageUrlFromImagePath(movieItem.getPosterPath());
             Picasso.with(context).load(imgUrl).into(poster);
         }
 
-        private String getImageUrl(String imageName)
-        {
-            Uri.Builder builder = new Uri.Builder();
-            builder.scheme("http")
-                    .authority(MovieDb.POSTER_BASE_URL)
-                    .appendPath(MovieDb.POSTER_T)
-                    .appendPath(MovieDb.POSTER_P)
-                    .appendPath(MovieDb.POSTER_W342)
-                    .appendEncodedPath(imageName);
 
-            return builder.build().toString();
-        }
 
     }
 }

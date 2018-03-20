@@ -3,6 +3,10 @@
     <string name="api_key">599c34d73931abe6918cfd12792fd160</string>
     <string name="overview_movie_content_description">Movie Image</string>
 
-    <string name="vote_average"> Vote average:</string>
-    <string name="popularity"> Popularity:</string>
+    <string name="vote_average"> Vote average</string>
+    <string name="popularity"> Popularity</string>
+    <string name="adult"> Adult</string>
+
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

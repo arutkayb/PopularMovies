@@ -28,8 +28,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/title_text_view"
                 android:hint="movie title"
-                android:gravity="center"
-                />
+                android:gravity="center"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -45,13 +44,6 @@
                 android:hint="movie popularity"
                 android:gravity="center"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/overview_text_view"
-                android:hint="movie overview"
-                android:gravity="center"
-                android:visibility="gone"/>
 
         </LinearLayout>
 

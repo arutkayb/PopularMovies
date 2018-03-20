@@ -1,13 +1,16 @@
 package nd.centertableinc.popularmovies1.Data.Utils;
 
 import android.graphics.Movie;
+import android.net.Uri;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import nd.centertableinc.popularmovies1.Data.MovieDb;
 import nd.centertableinc.popularmovies1.Data.RecyclerViewItems.MovieItem;
 
 /**
@@ -15,7 +18,10 @@ import nd.centertableinc.popularmovies1.Data.RecyclerViewItems.MovieItem;
  */
 
 public class MovieItemUtil {
+    private static MovieItem selectedMovieItem;
+
     private static final class MovieDbJsonFields {
+
         //moviedb api returned json fields
         private static final String RESULTS = "results"; //json array
         private static final String PAGE = "page"; //int
@@ -155,5 +161,37 @@ public class MovieItemUtil {
         }
 
         return movieItem;
+    }
+
+    public static String getLargeImageUrlFromImagePath(String imageName)
+    {
+        return getImageUrlFromImagePath(imageName, MovieDb.POSTER_W780);
+    }
+    public static String getSmallImageUrlFromImagePath(String imageName)
+    {
+        return getImageUrlFromImagePath(imageName, MovieDb.POSTER_W342);
+    }
+
+    private static String getImageUrlFromImagePath(String imageName, String size)
+    {
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme("http")
+                .authority(MovieDb.POSTER_BASE_URL)
+                .appendPath(MovieDb.POSTER_T)
+                .appendPath(MovieDb.POSTER_P)
+                .appendPath(size)
+                .appendEncodedPath(imageName);
+
+        return builder.build().toString();
+    }
+
+    public static void setSelectedMovieItem(MovieItem movieItem)
+    {
+        selectedMovieItem = movieItem;
+    }
+
+    public static MovieItem getSelectedMovieItem()
+    {
+        return selectedMovieItem;
     }
 }

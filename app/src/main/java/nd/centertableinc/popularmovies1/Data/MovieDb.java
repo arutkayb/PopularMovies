@@ -48,6 +48,8 @@ public class MovieDb {
     public final static String POSTER_BASE_URL = "image.tmdb.org";
     public final static String POSTER_T = "t";
     public final static String POSTER_P = "p";
+
+    /* Valid poster sizes */
     public final static String POSTER_W185 = "w185";
     public final static String POSTER_W342 = "w342";
     public final static String POSTER_W500 = "w500";
@@ -134,6 +136,5 @@ public class MovieDb {
     {
         return currentPage;
     }
-
 
 }
