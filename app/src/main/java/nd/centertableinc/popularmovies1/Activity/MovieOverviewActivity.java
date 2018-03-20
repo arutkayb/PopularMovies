@@ -1,13 +1,16 @@
 package nd.centertableinc.popularmovies1.Activity;
 
+import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import nd.centertableinc.popularmovies1.Adapter.MovieOverviewAdapter;
@@ -22,27 +25,48 @@ import nd.centertableinc.popularmovies1.R;
 public class MovieOverviewActivity extends AppCompatActivity implements RecyclerViewContainer,AsyncDataListener<String> {
     public List<MovieItem> movieItems;
     private MovieDb movieDb;
+    RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        movieItems = new ArrayList<>();
+
+        recyclerView = findViewById(R.id.movie_overview_recycler_view);
 
         movieDb = new MovieDb(this, this, getResources().getString(R.string.api_key));
 
-        requestTheMostPopularMovies();
+        requestTheMostPopularMovies(1);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        // Checks the orientation of the screen
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+            recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        }
     }
 
     private void createMovieCards(JSONObject movieDbJson)
     {
-        movieItems = MovieItemUtil.getMovieItemsFromMovieDbJson(movieDbJson);
+        if(movieItems == null)
+            movieItems = new ArrayList<>();
+
+        List<MovieItem> tempMovieItems = MovieItemUtil.getMovieItemsFromMovieDbJson(movieDbJson);
+
+        for(int i = 0; i<tempMovieItems.size(); i++)
+            movieItems.add(tempMovieItems.get(i));
 
         MovieOverviewAdapter movieOverviewAdapter = new MovieOverviewAdapter(this, this, movieItems);
-        RecyclerView recyclerView = findViewById(R.id.movie_overview_recycler_view);
 
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(movieOverviewAdapter);
+
+        recyclerView.scrollToPosition(movieItems.size() - tempMovieItems.size() - 1);
     }
 
     @Override
@@ -53,14 +77,14 @@ public class MovieOverviewActivity extends AppCompatActivity implements Recycler
             Toast.makeText(this, movieItems.get(itemPosition).getOrigTitle(), Toast.LENGTH_SHORT).show();
     }
 
-    public void requestTheMostPopularMovies()
+    public void requestTheMostPopularMovies(int page)
     {
-        movieDb.requestForTheMostPopularMovies();
+        movieDb.requestForTheMostPopularMovies(page);
     }
 
-    public void requestTheHighestRatedMovies()
+    public void requestTheHighestRatedMovies(int page)
     {
-        movieDb.requestForTheHighestRatedMovies();
+        movieDb.requestForTheHighestRatedMovies(page);
     }
 
     @Override
@@ -71,4 +95,10 @@ public class MovieOverviewActivity extends AppCompatActivity implements Recycler
             createMovieCards(res);
     }
 
+
+    @Override
+    public void lastItemHitListener(int itemPosition)
+    {
+        requestTheMostPopularMovies(movieDb.getCurrentPage() + 1);
+    }
 }

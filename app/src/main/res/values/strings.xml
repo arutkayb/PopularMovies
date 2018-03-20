@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">PopularMovies1</string>
-    <string name="api_key"></string>
+    <string name="api_key">599c34d73931abe6918cfd12792fd160</string>
     <string name="overview_movie_content_description">Movie Image</string>
+
+    <string name="vote_average"> Vote average:</string>
+    <string name="popularity"> Popularity:</string>
 </resources>

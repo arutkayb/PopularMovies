@@ -6,4 +6,5 @@ package nd.centertableinc.popularmovies1.Interfaces;
 
 public interface RecyclerViewContainer {
     void onCustomClickListener(int itemPosition);
+    void lastItemHitListener(int itemPosition);
 }

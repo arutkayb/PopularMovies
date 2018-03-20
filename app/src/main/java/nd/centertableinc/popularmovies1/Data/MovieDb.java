@@ -42,7 +42,8 @@ public class MovieDb {
     public final static String SORT_BY = "sort_by";
     public final static String POPULARITY_DESC= "popularity.desc";
     public final static String DISCOVER = "discover";
-    public final static String VOTE_AVERAGE_DESC= "vote_average.desc";
+    public final static String VOTE_AVERAGE_DESC = "vote_average.desc";
+    public final static String PAGE = "page";
 
     public final static String POSTER_BASE_URL = "image.tmdb.org";
     public final static String POSTER_T = "t";
@@ -60,7 +61,10 @@ public class MovieDb {
     private Context context;
     private HttpUtil httpUtil;
 
+    private int currentPage;
+
     public MovieDb(Context context, AsyncDataListener asyncDataListener, String apiKey){
+        currentPage = 1;
         this.apiKey = apiKey;
         this.asyncDataListener = asyncDataListener;
         this.context = context;
@@ -70,12 +74,18 @@ public class MovieDb {
 
     public void requestForTheMostPopularMovies()
     {
+        requestForTheMostPopularMovies(1);
+    }
+
+    public void requestForTheMostPopularMovies(int page)
+    {
         Uri.Builder builder = new Uri.Builder();
         builder.scheme("https")
                 .authority(MOVIE_API_URL)
                 .appendPath(MOVIE_API_VERSION_3)
                 .appendPath(DISCOVER)
                 .appendPath(TYPE_MOVIE)
+                .appendQueryParameter(PAGE, String.valueOf(page))
                 .appendQueryParameter(TAG_API_KEY, apiKey)
                 .appendQueryParameter(SORT_BY, POPULARITY_DESC);
 
@@ -88,17 +98,42 @@ public class MovieDb {
             Log.e("MovieDb", "requestForTheMostPopularMovies IO Exception: " + ex.toString());
         }
 
-        //return JsonUtil.createJsonObjFromJsonString(movieDbTestJson); //mock data
+        currentPage = page;
     }
 
     public void requestForTheHighestRatedMovies()
     {
-        //TODO: fill here
-
-        //return JsonUtil.createJsonObjFromJsonString(movieDbTestJson); //mock data
+        requestForTheHighestRatedMovies(1);
     }
 
+    public void requestForTheHighestRatedMovies(int page)
+    {
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme("https")
+                .authority(MOVIE_API_URL)
+                .appendPath(MOVIE_API_VERSION_3)
+                .appendPath(DISCOVER)
+                .appendPath(TYPE_MOVIE)
+                .appendQueryParameter(PAGE, String.valueOf(page))
+                .appendQueryParameter(TAG_API_KEY, apiKey)
+                .appendQueryParameter(SORT_BY, VOTE_AVERAGE_DESC);
 
+        String popularMoviesUrl = builder.build().toString();
+
+        try {
+            httpUtil.getRequest(popularMoviesUrl);
+        }catch (IOException ex)
+        {
+            Log.e("MovieDb", "requestForTheMostPopularMovies IO Exception: " + ex.toString());
+        }
+
+        currentPage = page;
+    }
+
+    public int getCurrentPage()
+    {
+        return currentPage;
+    }
 
 
 }

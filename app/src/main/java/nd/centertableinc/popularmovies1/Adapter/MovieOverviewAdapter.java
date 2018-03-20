@@ -1,5 +1,6 @@
 package nd.centertableinc.popularmovies1.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -45,9 +47,14 @@ public class MovieOverviewAdapter extends RecyclerView.Adapter<MovieOverviewAdap
     }
 
     @Override
-    public void onBindViewHolder(MoviesOverviewViewHolder holder, int position) {
+    public void onBindViewHolder(MoviesOverviewViewHolder holder, final int position) {
         MovieItem movieItem = movieItems.get(position);
         holder.bindHolder(movieItem);
+
+        if(position == movieItems.size() - 1)
+        {
+            recyclerViewContainer.lastItemHitListener(movieItems.size());
+        }
     }
 
     @Override
@@ -83,9 +90,14 @@ public class MovieOverviewAdapter extends RecyclerView.Adapter<MovieOverviewAdap
         public void bindHolder(MovieItem movieItem)
         {
             title.setText(movieItem.getTitle());
-            voteAverage.setText(String.valueOf(movieItem.getVoteAverage()));
+
+            String voteAverageString = context.getString(R.string.vote_average) + String.valueOf(movieItem.getVoteAverage());
+            voteAverage.setText(voteAverageString);
+
             overview.setText(movieItem.getOverview());
-            popularity.setText(String.valueOf(movieItem.getPopularity()));
+
+            String popularityString = context.getString(R.string.popularity) + String.valueOf((int)movieItem.getPopularity());
+            popularity.setText(popularityString);
 
             String imgUrl = getImageUrl(movieItem.getPosterPath());
             Picasso.with(context).load(imgUrl).into(poster);
@@ -98,7 +110,7 @@ public class MovieOverviewAdapter extends RecyclerView.Adapter<MovieOverviewAdap
                     .authority(MovieDb.POSTER_BASE_URL)
                     .appendPath(MovieDb.POSTER_T)
                     .appendPath(MovieDb.POSTER_P)
-                    .appendPath(MovieDb.POSTER_W780)
+                    .appendPath(MovieDb.POSTER_W342)
                     .appendEncodedPath(imageName);
 
             return builder.build().toString();
