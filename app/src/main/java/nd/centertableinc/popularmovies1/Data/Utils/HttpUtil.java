@@ -3,6 +3,8 @@ package nd.centertableinc.popularmovies1.Data.Utils;
 
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -37,8 +39,14 @@ public class HttpUtil{
         client.newCall(request)
                 .enqueue(new Callback() {
                     @Override
-                    public void onFailure(final Call call, IOException e) {
-
+                    public void onFailure(final Call call, final IOException e) {
+                        ((AppCompatActivity)context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(context, "Network error", Toast.LENGTH_LONG).show();
+                                Log.e("HttpUtil", "onFailure, " + e.toString());
+                            }
+                        });
                     }
 
                     @Override
@@ -48,7 +56,10 @@ public class HttpUtil{
                             public void run() {
                                 try {
                                     listener.onDataLoad(response.body().string());
-                                }catch (IOException ex){}
+                                }catch (IOException e){
+                                    Toast.makeText(context, "Network error: " + e.toString(), Toast.LENGTH_LONG).show();
+                                    Log.e("HttpUtil", "onResponse, error: " + e.toString());
+                                }
                             }
                         });
                     }

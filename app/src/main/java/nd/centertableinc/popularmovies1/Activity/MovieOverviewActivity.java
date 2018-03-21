@@ -33,6 +33,7 @@ public class MovieOverviewActivity extends AppCompatActivity implements Recycler
     RecyclerView recyclerView;
 
     MovieDb.ORDER_TYPE currentOrderType;
+    String actionTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +96,8 @@ public class MovieOverviewActivity extends AppCompatActivity implements Recycler
 
     public void requestTheMostPopularMovies(int page)
     {
+        actionTitle = getResources().getString(R.string.popularity);
+
         currentOrderType = MovieDb.ORDER_TYPE.MOST_POPULAR;
 
         movieDb.requestForTheMostPopularMovies(page);
@@ -102,6 +105,8 @@ public class MovieOverviewActivity extends AppCompatActivity implements Recycler
 
     public void requestTheHighestRatedMovies(int page)
     {
+        actionTitle = getResources().getString(R.string.highest_rated);
+
         currentOrderType = MovieDb.ORDER_TYPE.HIGHEST_RATED;
 
         movieDb.requestForTheHighestRatedMovies(page);
@@ -147,17 +152,35 @@ public class MovieOverviewActivity extends AppCompatActivity implements Recycler
                     movieItems.clear();
                     requestTheMostPopularMovies(1);
                 }
-
-                return true;
+                break;
             case R.id.item_highest_rated:
                 if(currentOrderType != MovieDb.ORDER_TYPE.HIGHEST_RATED)
                 {
                     movieItems.clear();
                     requestTheHighestRatedMovies(1);
                 }
-                return true;
+                break;
+            case R.id.item_refresh:
+                refreshMovieList();
+                break;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+
+        return true;
+    }
+
+    private void refreshMovieList()
+    {
+        if(currentOrderType == MovieDb.ORDER_TYPE.MOST_POPULAR)
+        {
+            movieItems.clear();
+            requestTheMostPopularMovies(1);
+        }
+        else if(currentOrderType == MovieDb.ORDER_TYPE.HIGHEST_RATED)
+        {
+            movieItems.clear();
+            requestTheHighestRatedMovies(1);
         }
     }
 
