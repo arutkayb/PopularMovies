@@ -42,6 +42,8 @@ public class MovieDb {
     public final static String DISCOVER = "discover";
     public final static String VOTE_AVERAGE_DESC = "vote_average.desc";
     public final static String PAGE = "page";
+    public final static String TOP_RATED = "top_rated";
+    public final static String POPULAR = "popular";
 
     public final static String POSTER_BASE_URL = "image.tmdb.org";
     public final static String POSTER_T = "t";
@@ -88,11 +90,10 @@ public class MovieDb {
         builder.scheme("https")
                 .authority(MOVIE_API_URL)
                 .appendPath(MOVIE_API_VERSION_3)
-                .appendPath(DISCOVER)
                 .appendPath(TYPE_MOVIE)
+                .appendPath(POPULAR)
                 .appendQueryParameter(PAGE, String.valueOf(page))
-                .appendQueryParameter(TAG_API_KEY, apiKey)
-                .appendQueryParameter(SORT_BY, POPULARITY_DESC);
+                .appendQueryParameter(TAG_API_KEY, apiKey);
 
         String popularMoviesUrl = builder.build().toString();
 
@@ -117,11 +118,10 @@ public class MovieDb {
         builder.scheme("https")
                 .authority(MOVIE_API_URL)
                 .appendPath(MOVIE_API_VERSION_3)
-                .appendPath(DISCOVER)
                 .appendPath(TYPE_MOVIE)
+                .appendPath(TOP_RATED)
                 .appendQueryParameter(PAGE, String.valueOf(page))
-                .appendQueryParameter(TAG_API_KEY, apiKey)
-                .appendQueryParameter(SORT_BY, VOTE_AVERAGE_DESC);
+                .appendQueryParameter(TAG_API_KEY, apiKey);
 
         String popularMoviesUrl = builder.build().toString();
 

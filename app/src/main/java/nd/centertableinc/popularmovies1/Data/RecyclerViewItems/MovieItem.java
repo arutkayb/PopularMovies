@@ -4,7 +4,7 @@ package nd.centertableinc.popularmovies1.Data.RecyclerViewItems;
  * Created by Rutkay on 04.03.2018.
  */
 
-public class MovieItem {
+public class MovieItem{
     private int voteCount;
     private int id;
     private boolean isVideo;
