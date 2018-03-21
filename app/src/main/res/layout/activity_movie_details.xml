@@ -6,84 +6,89 @@
     android:layout_height="match_parent"
     tools:context="nd.centertableinc.popularmovies1.Activity.MovieDetailsActivity">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginBottom="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp">
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/backdrop_image_view"
-            android:contentDescription="@string/overview_movie_content_description"
-            android:gravity="center"/>
+            android:contentDescription="@null"
+            android:gravity="center"
+            android:layout_marginBottom="10dp"
+            />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/title_text_view"
-            android:hint="movie title"
-            android:gravity="center"/>
+            android:gravity="left"
+            android:layout_marginBottom="10dp"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/orig_title_text_view"
-            android:hint="movie origTitle"
-            android:gravity="center"/>
+            android:gravity="left"
+            android:layout_marginBottom="10dp"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/vote_average_text_view"
-            android:hint="movie vote"
-            android:gravity="center"/>
+            android:gravity="left"
+            android:layout_marginBottom="10dp"/>
 
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/popularity_text_view"
-            android:hint="movie popularity"
-            android:gravity="center"/>
+            android:gravity="left"
+            android:layout_marginBottom="10dp"/>
 
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/orig_language_text_view"
-            android:hint="movie origLanguage"
-            android:gravity="center"/>
+            android:gravity="left"
+            android:layout_marginBottom="10dp"/>
 
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/overview_text_view"
-            android:hint="movie overview"
-            android:gravity="center"/>
+            android:gravity="left"
+            android:layout_marginBottom="10dp"/>
 
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/release_date_text_view"
-            android:hint="movie releaseDate"
-            android:gravity="center"/>
+            android:gravity="left"
+            android:layout_marginBottom="10dp"/>
 
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/is_adult_text_view"
-            android:hint="movie isAdult"
-            android:gravity="center"/>
+            android:gravity="left"
+            android:layout_marginBottom="10dp"/>
 
 
 
     </LinearLayout>
-
+    </ScrollView>
 </android.support.constraint.ConstraintLayout>

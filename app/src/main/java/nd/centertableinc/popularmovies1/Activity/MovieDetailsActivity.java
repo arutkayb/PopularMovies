@@ -47,29 +47,37 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
     public void bindHolder(MovieItem movieItem)
     {
-        title.setText(movieItem.getTitle());
+        String titleStr = getString(R.string.title) + ": " + movieItem.getTitle();
+        title.setText(titleStr);
 
-        String voteAverageString = getString(R.string.vote_average) + ": " + String.valueOf(movieItem.getVoteAverage());
-        voteAverage.setText(voteAverageString);
+        String voteAverageStr = getString(R.string.vote_average) + ": " + String.valueOf(movieItem.getVoteAverage());
+        voteAverage.setText(voteAverageStr);
 
         String popularityString = getString(R.string.popularity) + ": " + String.valueOf((int)movieItem.getPopularity());
         popularity.setText(popularityString);
 
-        String imgUrl = MovieItemUtil.getLargeImageUrlFromImagePath(movieItem.getBackdropPath());
-        Picasso.with(this).load(imgUrl).into(backdrop);
+        backdrop.setContentDescription(titleStr);
+        String imgUrlStr = MovieItemUtil.getLargeImageUrlFromImagePath(movieItem.getBackdropPath());
+        Picasso.with(this).load(imgUrlStr).into(backdrop);
 
-        origLanguage.setText(movieItem.getOrigLanguage());
-        origTitle.setText(movieItem.getOrigTitle());
+        String origLangStr = getString(R.string.orig_language) + ": " + movieItem.getOrigLanguage();
+        origLanguage.setText(origLangStr);
 
-        String adult = getString(R.string.adult) + ": ";
+        String origTitleStr = getString(R.string.orig_title) + ": " + movieItem.getOrigTitle();
+        origTitle.setText(origTitleStr);
+
+        String adultStr = getString(R.string.adult) + ": ";
         if(movieItem.isAdult())
-            adult = adult + getString(R.string.yes);
+            adultStr = adultStr + getString(R.string.yes);
         else
-            adult = adult + getString(R.string.no);
+            adultStr = adultStr + getString(R.string.no);
 
-        isAdult.setText(adult);
+        isAdult.setText(adultStr);
 
-        overview.setText(movieItem.getOverview());
-        releaseDate.setText(movieItem.getReleaseDate());
+        String overviewStr = getString(R.string.overview) + ": " + movieItem.getOverview();
+        overview.setText(overviewStr);
+
+        String releaseDateStr = getString(R.string.release_date) + ": " + movieItem.getReleaseDate();
+        releaseDate.setText(releaseDateStr);
     }
 }

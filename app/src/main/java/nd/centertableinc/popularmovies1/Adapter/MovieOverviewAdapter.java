@@ -96,6 +96,7 @@ public class MovieOverviewAdapter extends RecyclerView.Adapter<MovieOverviewAdap
             String popularityString = context.getString(R.string.popularity) + ": " + String.valueOf((int)movieItem.getPopularity());
             popularity.setText(popularityString);
 
+            poster.setContentDescription(movieItem.getTitle());
             String imgUrl = MovieItemUtil.getSmallImageUrlFromImagePath(movieItem.getPosterPath());
             Picasso.with(context).load(imgUrl).into(poster);
         }
