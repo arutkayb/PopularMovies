@@ -28,6 +28,8 @@ public class MovieDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_details);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         backdrop = findViewById(R.id.backdrop_image_view);
         title = findViewById(R.id.title_text_view);
         voteAverage = findViewById(R.id.vote_average_text_view);
@@ -79,5 +81,12 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
         String releaseDateStr = getString(R.string.release_date) + ": " + movieItem.getReleaseDate();
         releaseDate.setText(releaseDateStr);
+    }
+
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

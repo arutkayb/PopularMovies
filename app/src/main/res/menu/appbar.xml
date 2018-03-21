@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:title="@string/order_by">
+
+        <menu android:id="@+id/item_title">
+
+            <item android:id="@+id/item_highest_rated"
+                android:title="@string/highest_rated"
+                android:icon="@drawable/ic_thumbs_up_black_24dp"/>
+
+            <item android:id="@+id/item_most_popular"
+                android:title="@string/most_popular"
+                android:icon="@drawable/ic_popular_black_24dp"/>
+        </menu>
+    </item>
+</menu>

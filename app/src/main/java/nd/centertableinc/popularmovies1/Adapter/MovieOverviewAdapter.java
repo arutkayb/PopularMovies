@@ -54,7 +54,7 @@ public class MovieOverviewAdapter extends RecyclerView.Adapter<MovieOverviewAdap
 
         if(position == movieItems.size() - 1)
         {
-            recyclerViewContainer.lastItemHitListener(movieItems.size());
+            recyclerViewContainer.itemHitListener(movieItems.size());
         }
     }
 
