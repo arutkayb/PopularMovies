@@ -1,10 +1,13 @@
 package nd.centertableinc.popularmovies1.Data.RecyclerViewItems;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Rutkay on 04.03.2018.
  */
 
-public class MovieItem{
+public class MovieItem implements Parcelable{
     private int voteCount;
     private int id;
     private boolean isVideo;
@@ -18,6 +21,56 @@ public class MovieItem{
     private boolean isAdult;
     private String overview;
     private String releaseDate;
+
+    public static final String PARCELABLE_NAME = "movieItem";
+
+    public static final Parcelable.Creator<MovieItem> CREATOR = new Parcelable.Creator<MovieItem>() {
+        public MovieItem createFromParcel(Parcel in) {
+            return new MovieItem(in);
+        }
+
+        public MovieItem[] newArray(int size) {
+            return new MovieItem[size];
+        }
+    };
+    
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(voteCount);
+        parcel.writeInt(id);
+        parcel.writeValue(isVideo);
+        parcel.writeDouble(voteAverage);
+        parcel.writeString(title);
+        parcel.writeDouble(popularity);
+        parcel.writeString(posterPath);
+        parcel.writeString(origLanguage);
+        parcel.writeString(origTitle);
+        parcel.writeString(backdropPath);
+        parcel.writeValue(isAdult);
+        parcel.writeString(overview);
+        parcel.writeString(releaseDate);
+    }
+
+    public MovieItem(Parcel parcel) {
+        voteCount = parcel.readInt();
+        id = parcel.readInt();;
+        isVideo = (Boolean)parcel.readValue(getClass().getClassLoader());
+        voteAverage = parcel.readDouble();
+        title = parcel.readString();
+        popularity = parcel.readDouble();;
+        posterPath = parcel.readString();
+        origLanguage = parcel.readString();
+        origTitle = parcel.readString();
+        backdropPath = parcel.readString();
+        isAdult = (Boolean)parcel.readValue(getClass().getClassLoader());;
+        overview = parcel.readString();
+        releaseDate = parcel.readString();
+    }
 
     public MovieItem(){
 

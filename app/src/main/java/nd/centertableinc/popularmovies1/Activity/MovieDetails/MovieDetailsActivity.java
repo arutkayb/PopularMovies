@@ -40,7 +40,8 @@ public class MovieDetailsActivity extends AppCompatActivity {
         overview = findViewById(R.id.overview_text_view);
         releaseDate = findViewById(R.id.release_date_text_view);
 
-        MovieItem selectedMovie = MovieItemUtil.getSelectedMovieItem();
+        MovieItem selectedMovie = getIntent().getParcelableExtra(MovieItem.PARCELABLE_NAME);
+
         if(selectedMovie != null)
             bindHolder(selectedMovie);
         else

@@ -18,8 +18,6 @@ import nd.centertableinc.popularmovies1.Data.RecyclerViewItems.MovieItem;
  */
 
 public class MovieItemUtil {
-    private static MovieItem selectedMovieItem;
-
     private static final class MovieDbJsonFields {
 
         //moviedb api returned json fields
@@ -185,13 +183,4 @@ public class MovieItemUtil {
         return builder.build().toString();
     }
 
-    public static void setSelectedMovieItem(MovieItem movieItem)
-    {
-        selectedMovieItem = movieItem;
-    }
-
-    public static MovieItem getSelectedMovieItem()
-    {
-        return selectedMovieItem;
-    }
 }

@@ -95,11 +95,15 @@ public class MovieOverviewActivity extends AppCompatActivity implements Recycler
     @Override
     public void onCustomClickListener(int itemPosition)
     {
-        if(movieItems != null)
-            MovieItemUtil.setSelectedMovieItem(movieItems.get(itemPosition));
-
-        Intent intent = new Intent(this, MovieDetailsActivity.class);
-        startActivity(intent);
+        if(movieItems != null) {
+            Intent intent = new Intent(this, MovieDetailsActivity.class);
+            intent.putExtra(MovieItem.PARCELABLE_NAME, movieItems.get(itemPosition));
+            startActivity(intent);
+        }
+        else
+        {
+            Log.e("MoviewOverviewActivity", "Cannot start activity, movieItems is null");
+        }
     }
 
     @Override
