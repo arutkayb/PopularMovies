@@ -1,16 +1,16 @@
 package nd.centertableinc.popularmovies1.Data;
 
+import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 
-import org.json.JSONObject;
-
 import java.io.IOException;
 
 import nd.centertableinc.popularmovies1.Data.Utils.HttpUtil;
-import nd.centertableinc.popularmovies1.Data.Utils.JsonUtil;
-import nd.centertableinc.popularmovies1.Interfaces.AsyncDataListener;
+import nd.centertableinc.popularmovies1.Activity.AsyncDataListener;
+import nd.centertableinc.popularmovies1.R;
 
 /**
  * Created by Rutkay on 04.03.2018.
@@ -63,25 +63,12 @@ public class MovieDb {
     private Context context;
     private HttpUtil httpUtil;
 
-    private int currentPage;
-
-    public enum ORDER_TYPE{
-        MOST_POPULAR,
-        HIGHEST_RATED
-    }
-
-    public MovieDb(Context context, AsyncDataListener asyncDataListener, String apiKey){
-        currentPage = 1;
-        this.apiKey = apiKey;
+    public MovieDb(Context context, AsyncDataListener asyncDataListener){
         this.asyncDataListener = asyncDataListener;
         this.context = context;
+        this.apiKey = context.getResources().getString(R.string.api_key);
 
         httpUtil = new HttpUtil(context, asyncDataListener);
-    }
-
-    public void requestForTheMostPopularMovies()
-    {
-        requestForTheMostPopularMovies(1);
     }
 
     public void requestForTheMostPopularMovies(int page)
@@ -103,13 +90,6 @@ public class MovieDb {
         {
             Log.e("MovieDb", "requestForTheMostPopularMovies IO Exception: " + ex.toString());
         }
-
-        currentPage = page;
-    }
-
-    public void requestForTheHighestRatedMovies()
-    {
-        requestForTheHighestRatedMovies(1);
     }
 
     public void requestForTheHighestRatedMovies(int page)
@@ -132,12 +112,6 @@ public class MovieDb {
             Log.e("MovieDb", "requestForTheMostPopularMovies IO Exception: " + ex.toString());
         }
 
-        currentPage = page;
-    }
-
-    public int getCurrentPage()
-    {
-        return currentPage;
     }
 
 }

@@ -6,6 +6,7 @@
     <string name="vote_average"> Vote average</string>
     <string name="highest_rated"> Highest Rated</string>
     <string name="popularity"> Popularity</string>
+    <string name="favorites"> Favorites</string>
     <string name="most_popular"> Most Popular</string>
     <string name="adult"> Adult</string>
     <string name="orig_language"> Original Language</string>

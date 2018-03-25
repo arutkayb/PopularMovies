@@ -8,7 +8,7 @@ import android.widget.Toast;
 
 import java.io.IOException;
 
-import nd.centertableinc.popularmovies1.Interfaces.AsyncDataListener;
+import nd.centertableinc.popularmovies1.Activity.AsyncDataListener;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;

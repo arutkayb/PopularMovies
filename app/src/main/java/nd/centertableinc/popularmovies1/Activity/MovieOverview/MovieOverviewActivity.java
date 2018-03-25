@@ -1,39 +1,44 @@
-package nd.centertableinc.popularmovies1.Activity;
+package nd.centertableinc.popularmovies1.Activity.MovieOverview;
 
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
-import android.widget.Toolbar;
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import nd.centertableinc.popularmovies1.Activity.MovieDetails.MovieDetailsActivity;
+import nd.centertableinc.popularmovies1.Activity.MovieOverview.OverviewStates.OverviewState;
+import nd.centertableinc.popularmovies1.Activity.MovieOverview.OverviewStates.OverviewStateContext;
+import nd.centertableinc.popularmovies1.Activity.MovieOverview.OverviewStates.OverviewStateFactory;
+import nd.centertableinc.popularmovies1.Activity.State;
+import nd.centertableinc.popularmovies1.Activity.StateContext;
+import nd.centertableinc.popularmovies1.Activity.UnknownStateError;
 import nd.centertableinc.popularmovies1.Adapter.MovieOverviewAdapter;
 import nd.centertableinc.popularmovies1.Data.Utils.JsonUtil;
-import nd.centertableinc.popularmovies1.Interfaces.AsyncDataListener;
-import nd.centertableinc.popularmovies1.Interfaces.RecyclerViewContainer;
+import nd.centertableinc.popularmovies1.Activity.AsyncDataListener;
+import nd.centertableinc.popularmovies1.Activity.RecyclerViewContainer;
 import nd.centertableinc.popularmovies1.Data.RecyclerViewItems.MovieItem;
 import nd.centertableinc.popularmovies1.Data.MovieDb;
 import nd.centertableinc.popularmovies1.Data.Utils.MovieItemUtil;
+import nd.centertableinc.popularmovies1.Data.Utils.StateMachineUtil;
 import nd.centertableinc.popularmovies1.R;
 
 public class MovieOverviewActivity extends AppCompatActivity implements RecyclerViewContainer,AsyncDataListener<String> {
     public List<MovieItem> movieItems;
-    private MovieDb movieDb;
     RecyclerView recyclerView;
+    MovieOverviewAdapter movieOverviewAdapter;
 
-    MovieDb.ORDER_TYPE currentOrderType;
-    String actionTitle;
+    OverviewStateContext overviewStateContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,12 +48,16 @@ public class MovieOverviewActivity extends AppCompatActivity implements Recycler
         movieItems = new ArrayList<>();
 
         recyclerView = findViewById(R.id.movie_overview_recycler_view);
+        movieOverviewAdapter = new MovieOverviewAdapter(this, this, movieItems);
 
         setRecyclerViewLayoutManager(getResources().getConfiguration());
 
-        movieDb = new MovieDb(this, this, getResources().getString(R.string.api_key));
+        OverviewStateFactory overviewStateFactory = new OverviewStateFactory(this,this);
+        overviewStateContext = new OverviewStateContext(this, this, overviewStateFactory);
 
-        requestTheMostPopularMovies(1);
+        StateMachineUtil.setState(overviewStateContext, OverviewStateFactory.POPULAR_STATE);
+
+        overviewStateContext.getCurrentState().requestForMovies();
     }
 
     @Override
@@ -77,8 +86,7 @@ public class MovieOverviewActivity extends AppCompatActivity implements Recycler
         for(int i = 0; i<tempMovieItems.size(); i++)
             movieItems.add(tempMovieItems.get(i));
 
-        MovieOverviewAdapter movieOverviewAdapter = new MovieOverviewAdapter(this, this, movieItems);
-
+        movieOverviewAdapter.setMovieItems(movieItems);
         recyclerView.setAdapter(movieOverviewAdapter);
 
         recyclerView.scrollToPosition(movieItems.size() - tempMovieItems.size() - 1);
@@ -94,24 +102,6 @@ public class MovieOverviewActivity extends AppCompatActivity implements Recycler
         startActivity(intent);
     }
 
-    public void requestTheMostPopularMovies(int page)
-    {
-        actionTitle = getResources().getString(R.string.popularity);
-
-        currentOrderType = MovieDb.ORDER_TYPE.MOST_POPULAR;
-
-        movieDb.requestForTheMostPopularMovies(page);
-    }
-
-    public void requestTheHighestRatedMovies(int page)
-    {
-        actionTitle = getResources().getString(R.string.highest_rated);
-
-        currentOrderType = MovieDb.ORDER_TYPE.HIGHEST_RATED;
-
-        movieDb.requestForTheHighestRatedMovies(page);
-    }
-
     @Override
     public void onDataLoad(String result){
         JSONObject res = JsonUtil.createJsonObjFromJsonString(result);
@@ -124,14 +114,7 @@ public class MovieOverviewActivity extends AppCompatActivity implements Recycler
     @Override
     public void itemHitListener(int itemPosition)
     {
-        if(currentOrderType == MovieDb.ORDER_TYPE.MOST_POPULAR)
-        {
-            requestTheMostPopularMovies(movieDb.getCurrentPage() + 1);
-        }
-        else if(currentOrderType == MovieDb.ORDER_TYPE.HIGHEST_RATED)
-        {
-            requestTheHighestRatedMovies(movieDb.getCurrentPage() + 1);
-        }
+        overviewStateContext.getCurrentState().requestForMoviesMore();
     }
 
     @Override
@@ -145,23 +128,28 @@ public class MovieOverviewActivity extends AppCompatActivity implements Recycler
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        int currentStateId = overviewStateContext.getCurrentState().getStateId();
+
         switch (item.getItemId()) {
             case R.id.item_most_popular:
-                if(currentOrderType != MovieDb.ORDER_TYPE.MOST_POPULAR)
-                {
-                    movieItems.clear();
-                    requestTheMostPopularMovies(1);
+                if(currentStateId != OverviewStateFactory.POPULAR_STATE) {
+                    movieStateChanged(OverviewStateFactory.POPULAR_STATE);
                 }
                 break;
             case R.id.item_highest_rated:
-                if(currentOrderType != MovieDb.ORDER_TYPE.HIGHEST_RATED)
-                {
-                    movieItems.clear();
-                    requestTheHighestRatedMovies(1);
+                if(currentStateId != OverviewStateFactory.HIGHEST_RATED_STATE) {
+                    movieStateChanged(OverviewStateFactory.HIGHEST_RATED_STATE);
+                }
+                break;
+            case R.id.item_favorites:
+                if(currentStateId != OverviewStateFactory.FAVORITE_STATE) {
+                    movieStateChanged(OverviewStateFactory.FAVORITE_STATE);
                 }
                 break;
             case R.id.item_refresh:
-                refreshMovieList();
+                clearMovies();
+                StateMachineUtil.setState(overviewStateContext, overviewStateContext.getCurrentState().getStateId());
+                overviewStateContext.getCurrentState().requestForMovies();
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -170,18 +158,18 @@ public class MovieOverviewActivity extends AppCompatActivity implements Recycler
         return true;
     }
 
-    private void refreshMovieList()
+    private void clearMovies()
     {
-        if(currentOrderType == MovieDb.ORDER_TYPE.MOST_POPULAR)
-        {
-            movieItems.clear();
-            requestTheMostPopularMovies(1);
-        }
-        else if(currentOrderType == MovieDb.ORDER_TYPE.HIGHEST_RATED)
-        {
-            movieItems.clear();
-            requestTheHighestRatedMovies(1);
-        }
+        movieItems.clear();
+        movieOverviewAdapter.setMovieItems(movieItems);
+        recyclerView.setAdapter(movieOverviewAdapter);
+    }
+
+    private void movieStateChanged(int state)
+    {
+        clearMovies();
+        StateMachineUtil.setState(overviewStateContext, state);
+        overviewStateContext.getCurrentState().requestForMovies();
     }
 
 }

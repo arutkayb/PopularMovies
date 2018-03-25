@@ -1,4 +1,4 @@
-package nd.centertableinc.popularmovies1.Activity;
+package nd.centertableinc.popularmovies1.Activity.MovieDetails;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

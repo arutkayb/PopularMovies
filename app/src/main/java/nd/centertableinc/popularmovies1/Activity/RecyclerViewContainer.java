@@ -1,4 +1,4 @@
-package nd.centertableinc.popularmovies1.Interfaces;
+package nd.centertableinc.popularmovies1.Activity;
 
 /**
  * Created by Rutkay on 15.03.2018.
