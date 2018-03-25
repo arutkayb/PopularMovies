@@ -76,20 +76,18 @@ public class MovieOverviewActivity extends AppCompatActivity implements Recycler
         }
     }
 
-    private void createMovieCards(JSONObject movieDbJson)
+    private void createMovieCards(List<MovieItem> items)
     {
         if(movieItems == null)
             movieItems = new ArrayList<>();
 
-        List<MovieItem> tempMovieItems = MovieItemUtil.getMovieItemsFromMovieDbJson(movieDbJson);
-
-        for(int i = 0; i<tempMovieItems.size(); i++)
-            movieItems.add(tempMovieItems.get(i));
+        for(int i = 0; i<items.size(); i++)
+            movieItems.add(items.get(i));
 
         movieOverviewAdapter.setMovieItems(movieItems);
         recyclerView.setAdapter(movieOverviewAdapter);
 
-        recyclerView.scrollToPosition(movieItems.size() - tempMovieItems.size() - 1);
+        recyclerView.scrollToPosition(movieItems.size() - items.size() - 1);
     }
 
     @Override
@@ -111,7 +109,11 @@ public class MovieOverviewActivity extends AppCompatActivity implements Recycler
         JSONObject res = JsonUtil.createJsonObjFromJsonString(result);
 
         if(res != null)
-            createMovieCards(res);
+        {
+            List<MovieItem> tempMovieItems = MovieItemUtil.getMovieItemsFromMovieDbJson(res);
+            
+            createMovieCards(tempMovieItems);
+        }
     }
 
 
