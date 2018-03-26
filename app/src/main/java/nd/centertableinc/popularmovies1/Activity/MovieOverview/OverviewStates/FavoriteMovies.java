@@ -12,18 +12,14 @@ import nd.centertableinc.popularmovies1.Data.MovieData;
 public class FavoriteMovies implements OverviewState{
     private static final int MOVIES_PER_PAGE = 20;
 
-    AsyncDataListener listener;
     int stateId;
     int currentPage;
 
-    Context context;
     MovieData movieData;
 
-    public FavoriteMovies(Context context, AsyncDataListener listener, int id, MovieData movieData)
+    public FavoriteMovies(int id, MovieData movieData)
     {
         stateId = id;
-        this.listener = listener;
-        this.context = context;
         currentPage = 1;
         this.movieData = movieData;
     }
@@ -52,8 +48,4 @@ public class FavoriteMovies implements OverviewState{
         return stateId;
     }
 
-    @Override
-    public void onDataLoad(String result){
-        listener.onDataLoad(result);
-    }
 }

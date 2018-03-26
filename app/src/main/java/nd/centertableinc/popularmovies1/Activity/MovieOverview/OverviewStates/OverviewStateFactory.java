@@ -40,19 +40,19 @@ public class OverviewStateFactory implements StateFactory{
         {
             case POPULAR_STATE:
                 if(popularState == null)
-                    popularState = new PopularMovies(context, listener, POPULAR_STATE, new MovieDbPopular(context,listener));
+                    popularState = new PopularMovies(POPULAR_STATE, new MovieDbPopular(context,listener));
 
                 ret = popularState;
                 break;
             case HIGHEST_RATED_STATE:
                 if(highestRatedState == null)
-                    highestRatedState = new HighestRatedMovies(context, listener, HIGHEST_RATED_STATE, new MovieDbHighestRated(context,listener));
+                    highestRatedState = new HighestRatedMovies(HIGHEST_RATED_STATE, new MovieDbHighestRated(context,listener));
 
                 ret = highestRatedState;
                 break;
             case FAVORITE_STATE:
                 if(favoriteState == null)
-                    favoriteState = new FavoriteMovies(context, listener, FAVORITE_STATE, new MoviesFavorite(context, listener));
+                    favoriteState = new FavoriteMovies(FAVORITE_STATE, new MoviesFavorite(context, listener));
 
                 ret = favoriteState;
                 break;

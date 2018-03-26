@@ -10,19 +10,14 @@ import nd.centertableinc.popularmovies1.Data.MovieData;
  */
 
 public class HighestRatedMovies implements OverviewState{
-    AsyncDataListener listener;
-
     int stateId;
     int currentPage;
 
-    Context context;
     MovieData movieData;
 
-    public HighestRatedMovies(Context context, AsyncDataListener listener, int id, MovieData movieData)
+    public HighestRatedMovies(int id, MovieData movieData)
     {
         stateId = id;
-        this.listener = listener;
-        this.context = context;
         currentPage = 1;
 
         this.movieData = movieData;
@@ -54,8 +49,4 @@ public class HighestRatedMovies implements OverviewState{
         return stateId;
     }
 
-    @Override
-    public void onDataLoad(String result){
-        listener.onDataLoad(result);
-    }
 }

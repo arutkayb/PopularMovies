@@ -50,7 +50,7 @@ public class MovieOverviewActivity extends AppCompatActivity implements Recycler
         OverviewStateFactory overviewStateFactory = new OverviewStateFactory(this,this);
         overviewStateContext = new OverviewStateContext(this, this, overviewStateFactory);
 
-        StateMachineUtil.setState(overviewStateContext, OverviewStateFactory.POPULAR_STATE);
+        StateMachineUtil.setState(overviewStateContext, OverviewStateFactory.HIGHEST_RATED_STATE);
 
         overviewStateContext.getCurrentState().requestForMovies();
     }
