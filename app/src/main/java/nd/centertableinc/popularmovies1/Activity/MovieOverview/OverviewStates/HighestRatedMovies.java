@@ -3,7 +3,7 @@ package nd.centertableinc.popularmovies1.Activity.MovieOverview.OverviewStates;
 import android.content.Context;
 
 import nd.centertableinc.popularmovies1.Activity.AsyncDataListener;
-import nd.centertableinc.popularmovies1.Data.MovieDb;
+import nd.centertableinc.popularmovies1.Data.MovieData;
 
 /**
  * Created by Rutkay on 25.03.2018.
@@ -16,16 +16,16 @@ public class HighestRatedMovies implements OverviewState{
     int currentPage;
 
     Context context;
-    MovieDb movieDb;
+    MovieData movieData;
 
-    public HighestRatedMovies(Context context, AsyncDataListener listener, int id)
+    public HighestRatedMovies(Context context, AsyncDataListener listener, int id, MovieData movieData)
     {
         stateId = id;
         this.listener = listener;
         this.context = context;
         currentPage = 1;
 
-        movieDb = new MovieDb(context, listener);
+        this.movieData = movieData;
     }
 
     @Override
@@ -40,13 +40,13 @@ public class HighestRatedMovies implements OverviewState{
     @Override
     public void requestForMovies() {
         currentPage = 1;
-        movieDb.requestForTheHighestRatedMovies(currentPage);
+        movieData.requestForMovies(currentPage);
     }
 
     @Override
     public void requestForMoviesMore() {
         currentPage++;
-        movieDb.requestForTheHighestRatedMovies(currentPage);
+        movieData.requestForMovies(currentPage);
     }
 
     @Override

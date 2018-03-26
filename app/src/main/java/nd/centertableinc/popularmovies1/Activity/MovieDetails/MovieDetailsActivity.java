@@ -1,7 +1,10 @@
 package nd.centertableinc.popularmovies1.Activity.MovieDetails;
 
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,16 +15,19 @@ import nd.centertableinc.popularmovies1.Data.Utils.MovieItemUtil;
 import nd.centertableinc.popularmovies1.R;
 
 public class MovieDetailsActivity extends AppCompatActivity {
+    ImageView favorite;
+
     ImageView backdrop;
     TextView title;
     TextView voteAverage;
     TextView popularity;
-
     TextView origLanguage;
     TextView origTitle;
     TextView isAdult;
     TextView overview;
     TextView releaseDate;
+
+    MovieItem selectedMovie;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +46,15 @@ public class MovieDetailsActivity extends AppCompatActivity {
         overview = findViewById(R.id.overview_text_view);
         releaseDate = findViewById(R.id.release_date_text_view);
 
-        MovieItem selectedMovie = getIntent().getParcelableExtra(MovieItem.PARCELABLE_NAME);
+        favorite = findViewById(R.id.is_favorite_image_view);
+        favorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                favoriteButtonClicked();
+            }
+        });
+
+        selectedMovie = getIntent().getParcelableExtra(MovieItem.PARCELABLE_NAME);
 
         if(selectedMovie != null)
             bindHolder(selectedMovie);
@@ -82,6 +96,9 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
         String releaseDateStr = getString(R.string.release_date) + ": " + movieItem.getReleaseDate();
         releaseDate.setText(releaseDateStr);
+
+        Drawable favoriteIcon = getFavoriteDrawable();
+        favorite.setImageDrawable(favoriteIcon);
     }
 
 
@@ -89,5 +106,16 @@ public class MovieDetailsActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
+    }
+
+    private void favoriteButtonClicked()
+    {
+        //TODO: fill here
+    }
+
+    private Drawable getFavoriteDrawable()
+    {
+        //TODO: fill here
+        return null;
     }
 }

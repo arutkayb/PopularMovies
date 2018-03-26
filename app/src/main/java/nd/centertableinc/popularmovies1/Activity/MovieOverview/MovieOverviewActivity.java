@@ -17,18 +17,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nd.centertableinc.popularmovies1.Activity.MovieDetails.MovieDetailsActivity;
-import nd.centertableinc.popularmovies1.Activity.MovieOverview.OverviewStates.OverviewState;
 import nd.centertableinc.popularmovies1.Activity.MovieOverview.OverviewStates.OverviewStateContext;
 import nd.centertableinc.popularmovies1.Activity.MovieOverview.OverviewStates.OverviewStateFactory;
-import nd.centertableinc.popularmovies1.Activity.State;
-import nd.centertableinc.popularmovies1.Activity.StateContext;
-import nd.centertableinc.popularmovies1.Activity.UnknownStateError;
 import nd.centertableinc.popularmovies1.Adapter.MovieOverviewAdapter;
 import nd.centertableinc.popularmovies1.Data.Utils.JsonUtil;
 import nd.centertableinc.popularmovies1.Activity.AsyncDataListener;
 import nd.centertableinc.popularmovies1.Activity.RecyclerViewContainer;
 import nd.centertableinc.popularmovies1.Data.RecyclerViewItems.MovieItem;
-import nd.centertableinc.popularmovies1.Data.MovieDb;
 import nd.centertableinc.popularmovies1.Data.Utils.MovieItemUtil;
 import nd.centertableinc.popularmovies1.Data.Utils.StateMachineUtil;
 import nd.centertableinc.popularmovies1.R;
@@ -110,7 +105,7 @@ public class MovieOverviewActivity extends AppCompatActivity implements Recycler
 
         if(res != null)
         {
-            List<MovieItem> tempMovieItems = MovieItemUtil.getMovieItemsFromMovieDbJson(res);
+            List<MovieItem> tempMovieItems = MovieItemUtil.getMovieItemsFromTheMovieDbJson(res);
             
             createMovieCards(tempMovieItems);
         }

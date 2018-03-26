@@ -1,26 +1,24 @@
 package nd.centertableinc.popularmovies1.Data.Utils;
 
-import android.graphics.Movie;
 import android.net.Uri;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-import nd.centertableinc.popularmovies1.Data.MovieDb;
 import nd.centertableinc.popularmovies1.Data.RecyclerViewItems.MovieItem;
+import nd.centertableinc.popularmovies1.Data.TheMovieDb;
 
 /**
  * Created by Rutkay on 14.03.2018.
  */
 
 public class MovieItemUtil {
-    private static final class MovieDbJsonFields {
+    private static final class TheMovieDbJsonFields {
 
-        //moviedb api returned json fields
+        //TheMovieDb api returned json fields
         private static final String RESULTS = "results"; //json array
         private static final String PAGE = "page"; //int
         private static final String TOTAL_PAGES = "total_pages"; //int
@@ -42,13 +40,13 @@ public class MovieItemUtil {
         private static final String RELEASE_DATE = "release_date"; //string
     }
 
-    public static List<MovieItem> getMovieItemsFromMovieDbJson(JSONObject movieDbJson)
+    public static List<MovieItem> getMovieItemsFromTheMovieDbJson(JSONObject TheMovieDbJson)
     {
         List<MovieItem> movieItems = new ArrayList<>();
 
-        if( movieDbJson != null && movieDbJson.has(MovieDbJsonFields.RESULTS))
+        if( TheMovieDbJson != null && TheMovieDbJson.has(TheMovieDbJsonFields.RESULTS))
         {
-            JSONArray resultsArray = JsonUtil.getJsonArrayFromJsonObj(movieDbJson, MovieDbJsonFields.RESULTS);
+            JSONArray resultsArray = JsonUtil.getJsonArrayFromJsonObj(TheMovieDbJson, TheMovieDbJsonFields.RESULTS);
             if(resultsArray != null)
             {
                 for(int i = 0; i < resultsArray.length(); ++i)
@@ -80,81 +78,81 @@ public class MovieItemUtil {
 
         MovieItem movieItem = new MovieItem();
 
-        if(movieJson.has(MovieDbJsonFields.VOTE_COUNT))
+        if(movieJson.has(TheMovieDbJsonFields.VOTE_COUNT))
         {
-            voteCount = JsonUtil.getIntFromJsonObj(movieJson, MovieDbJsonFields.VOTE_COUNT);
+            voteCount = JsonUtil.getIntFromJsonObj(movieJson, TheMovieDbJsonFields.VOTE_COUNT);
             movieItem.setVoteCount(voteCount);
         }
 
-        if(movieJson.has(MovieDbJsonFields.ID))
+        if(movieJson.has(TheMovieDbJsonFields.ID))
         {
-            id = JsonUtil.getIntFromJsonObj(movieJson, MovieDbJsonFields.ID);
+            id = JsonUtil.getIntFromJsonObj(movieJson, TheMovieDbJsonFields.ID);
             movieItem.setId(id);
         }
 
-        if(movieJson.has(MovieDbJsonFields.VIDEO))
+        if(movieJson.has(TheMovieDbJsonFields.VIDEO))
         {
-            isVideo = JsonUtil.getBooleanFromJsonObj(movieJson, MovieDbJsonFields.VIDEO);
+            isVideo = JsonUtil.getBooleanFromJsonObj(movieJson, TheMovieDbJsonFields.VIDEO);
             movieItem.setVideo(isVideo);
         }
 
-        if(movieJson.has(MovieDbJsonFields.VOTE_AVEGARE))
+        if(movieJson.has(TheMovieDbJsonFields.VOTE_AVEGARE))
         {
-            voteAverage = JsonUtil.getDoubleFromJsonObj(movieJson, MovieDbJsonFields.VOTE_AVEGARE);
+            voteAverage = JsonUtil.getDoubleFromJsonObj(movieJson, TheMovieDbJsonFields.VOTE_AVEGARE);
             movieItem.setVoteAverage(voteAverage);
         }
 
-        if(movieJson.has(MovieDbJsonFields.TITLE))
+        if(movieJson.has(TheMovieDbJsonFields.TITLE))
         {
-            title = JsonUtil.getStringFromJsonObj(movieJson, MovieDbJsonFields.TITLE);
+            title = JsonUtil.getStringFromJsonObj(movieJson, TheMovieDbJsonFields.TITLE);
             movieItem.setTitle(title);
         }
 
-        if(movieJson.has(MovieDbJsonFields.POPULARITY))
+        if(movieJson.has(TheMovieDbJsonFields.POPULARITY))
         {
-            popularity = JsonUtil.getDoubleFromJsonObj(movieJson, MovieDbJsonFields.POPULARITY);
+            popularity = JsonUtil.getDoubleFromJsonObj(movieJson, TheMovieDbJsonFields.POPULARITY);
             movieItem.setPopularity(popularity);
         }
 
-        if(movieJson.has(MovieDbJsonFields.POSTER_PATH))
+        if(movieJson.has(TheMovieDbJsonFields.POSTER_PATH))
         {
-            posterPath = JsonUtil.getStringFromJsonObj(movieJson, MovieDbJsonFields.POSTER_PATH);
+            posterPath = JsonUtil.getStringFromJsonObj(movieJson, TheMovieDbJsonFields.POSTER_PATH);
             movieItem.setPosterPath(posterPath);
         }
 
-        if(movieJson.has(MovieDbJsonFields.ORIGINAL_LANGUAGE))
+        if(movieJson.has(TheMovieDbJsonFields.ORIGINAL_LANGUAGE))
         {
-            origLanguage = JsonUtil.getStringFromJsonObj(movieJson, MovieDbJsonFields.ORIGINAL_LANGUAGE);
+            origLanguage = JsonUtil.getStringFromJsonObj(movieJson, TheMovieDbJsonFields.ORIGINAL_LANGUAGE);
             movieItem.setOrigLanguage(origLanguage);
         }
 
-        if(movieJson.has(MovieDbJsonFields.ORIGINAL_TITLE))
+        if(movieJson.has(TheMovieDbJsonFields.ORIGINAL_TITLE))
         {
-            origTitle = JsonUtil.getStringFromJsonObj(movieJson, MovieDbJsonFields.ORIGINAL_TITLE);
+            origTitle = JsonUtil.getStringFromJsonObj(movieJson, TheMovieDbJsonFields.ORIGINAL_TITLE);
             movieItem.setOrigTitle(origTitle);
         }
 
-        if(movieJson.has(MovieDbJsonFields.BACKDROP_PATH))
+        if(movieJson.has(TheMovieDbJsonFields.BACKDROP_PATH))
         {
-            backdropPath = JsonUtil.getStringFromJsonObj(movieJson, MovieDbJsonFields.BACKDROP_PATH);
+            backdropPath = JsonUtil.getStringFromJsonObj(movieJson, TheMovieDbJsonFields.BACKDROP_PATH);
             movieItem.setBackdropPath(backdropPath);
         }
 
-        if(movieJson.has(MovieDbJsonFields.ADULT))
+        if(movieJson.has(TheMovieDbJsonFields.ADULT))
         {
-            isAdult = JsonUtil.getBooleanFromJsonObj(movieJson, MovieDbJsonFields.ADULT);
+            isAdult = JsonUtil.getBooleanFromJsonObj(movieJson, TheMovieDbJsonFields.ADULT);
             movieItem.setAdult(isAdult);
         }
 
-        if(movieJson.has(MovieDbJsonFields.OVERVIEW))
+        if(movieJson.has(TheMovieDbJsonFields.OVERVIEW))
         {
-            overview = JsonUtil.getStringFromJsonObj(movieJson, MovieDbJsonFields.OVERVIEW);
+            overview = JsonUtil.getStringFromJsonObj(movieJson, TheMovieDbJsonFields.OVERVIEW);
             movieItem.setOverview(overview);
         }
 
-        if(movieJson.has(MovieDbJsonFields.RELEASE_DATE))
+        if(movieJson.has(TheMovieDbJsonFields.RELEASE_DATE))
         {
-            releaseDate = JsonUtil.getStringFromJsonObj(movieJson, MovieDbJsonFields.RELEASE_DATE);
+            releaseDate = JsonUtil.getStringFromJsonObj(movieJson, TheMovieDbJsonFields.RELEASE_DATE);
             movieItem.setReleaseDate(releaseDate);
         }
 
@@ -163,20 +161,20 @@ public class MovieItemUtil {
 
     public static String getLargeImageUrlFromImagePath(String imageName)
     {
-        return getImageUrlFromImagePath(imageName, MovieDb.POSTER_W780);
+        return getImageUrlFromImagePath(imageName, TheMovieDb.POSTER_W780);
     }
     public static String getSmallImageUrlFromImagePath(String imageName)
     {
-        return getImageUrlFromImagePath(imageName, MovieDb.POSTER_W342);
+        return getImageUrlFromImagePath(imageName, TheMovieDb.POSTER_W342);
     }
 
     private static String getImageUrlFromImagePath(String imageName, String size)
     {
         Uri.Builder builder = new Uri.Builder();
         builder.scheme("http")
-                .authority(MovieDb.POSTER_BASE_URL)
-                .appendPath(MovieDb.POSTER_T)
-                .appendPath(MovieDb.POSTER_P)
+                .authority(TheMovieDb.POSTER_BASE_URL)
+                .appendPath(TheMovieDb.POSTER_T)
+                .appendPath(TheMovieDb.POSTER_P)
                 .appendPath(size)
                 .appendEncodedPath(imageName);
 
