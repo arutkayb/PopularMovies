@@ -14,7 +14,7 @@ import nd.centertableinc.popularmovies1.R;
  * Created by abiyik on 26.03.2018.
  */
 
-public class MovieDbPopular extends TheMovieDb{
+public class MovieDbPopular implements MovieData{
     private String apiKey;
     private Context context;
     private HttpUtil httpUtil;
@@ -31,12 +31,12 @@ public class MovieDbPopular extends TheMovieDb{
     {
         Uri.Builder builder = new Uri.Builder();
         builder.scheme("https")
-                .authority(MOVIE_API_URL)
-                .appendPath(MOVIE_API_VERSION_3)
-                .appendPath(TYPE_MOVIE)
-                .appendPath(POPULAR)
-                .appendQueryParameter(PAGE, String.valueOf(page))
-                .appendQueryParameter(TAG_API_KEY, apiKey);
+                .authority(TheMovieDb.MOVIE_API_URL)
+                .appendPath(TheMovieDb.MOVIE_API_VERSION_3)
+                .appendPath(TheMovieDb.TYPE_MOVIE)
+                .appendPath(TheMovieDb.POPULAR)
+                .appendQueryParameter(TheMovieDb.PAGE, String.valueOf(page))
+                .appendQueryParameter(TheMovieDb.TAG_API_KEY, apiKey);
 
         String popularMoviesUrl = builder.build().toString();
 

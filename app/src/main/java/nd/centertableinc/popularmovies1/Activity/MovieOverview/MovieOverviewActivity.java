@@ -129,8 +129,6 @@ public class MovieOverviewActivity extends AppCompatActivity implements Recycler
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int currentStateId = overviewStateContext.getCurrentState().getStateId();
-
         switch (item.getItemId()) {
             case R.id.item_most_popular:
             case R.id.item_highest_rated:

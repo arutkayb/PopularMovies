@@ -6,7 +6,7 @@ import nd.centertableinc.popularmovies1.Activity.AsyncDataListener;
  * Created by abiyik on 26.03.2018.
  */
 
-public abstract class TheMovieDb implements MovieData{
+public class TheMovieDb{
     /*
     * API themoviedb.org
     * It’s constructed using 3 parts:
@@ -48,7 +48,8 @@ public abstract class TheMovieDb implements MovieData{
     // size can be "w92", "w154", "w185", "w342", "w500", "w780"
     // overall poster link is like: http://image.tmdb.org/t/p/w185//nBNZadXqJSdt05SHLqgT0HuC5Gm.jpg
 
+    private TheMovieDb()
+    {
 
-    @Override
-    public abstract void requestForMovies(int page, AsyncDataListener asyncDataListener);
+    }
 }

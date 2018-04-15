@@ -8,9 +8,9 @@ import nd.centertableinc.popularmovies1.Activity.AsyncDataListener;
  * Created by abiyik on 26.03.2018.
  */
 
-public class MoviesFavorite implements MovieData {
+public class MoviesDbFavorite implements MovieData {
 
-    public MoviesFavorite(Context context) {
+    public MoviesDbFavorite(Context context) {
 
     }
 

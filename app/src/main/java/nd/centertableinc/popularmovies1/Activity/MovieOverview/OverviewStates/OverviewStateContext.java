@@ -1,13 +1,8 @@
 package nd.centertableinc.popularmovies1.Activity.MovieOverview.OverviewStates;
 
 import android.content.Context;
-import android.util.Log;
 
-import nd.centertableinc.popularmovies1.Activity.AsyncDataListener;
-import nd.centertableinc.popularmovies1.Activity.State;
 import nd.centertableinc.popularmovies1.Activity.StateContext;
-import nd.centertableinc.popularmovies1.Activity.StateFactory;
-import nd.centertableinc.popularmovies1.Activity.UnknownStateError;
 
 /**
  * Created by Rutkay on 25.03.2018.
