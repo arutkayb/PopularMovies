@@ -10,12 +10,12 @@ import nd.centertableinc.popularmovies1.Activity.AsyncDataListener;
 
 public class MoviesFavorite implements MovieData {
 
-    public MoviesFavorite(Context context, AsyncDataListener asyncDataListener) {
+    public MoviesFavorite(Context context) {
 
     }
 
     @Override
-    public void requestForMovies(int page) {
+    public void requestForMovies(int page, AsyncDataListener asyncDataListener) {
         //TODO: fill here
     }
 }

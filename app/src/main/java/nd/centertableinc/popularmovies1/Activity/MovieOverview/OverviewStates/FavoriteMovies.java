@@ -4,6 +4,7 @@ import android.content.Context;
 
 import nd.centertableinc.popularmovies1.Activity.AsyncDataListener;
 import nd.centertableinc.popularmovies1.Data.MovieData;
+import nd.centertableinc.popularmovies1.R;
 
 /**
  * Created by Rutkay on 25.03.2018.
@@ -12,14 +13,13 @@ import nd.centertableinc.popularmovies1.Data.MovieData;
 public class FavoriteMovies implements OverviewState{
     private static final int MOVIES_PER_PAGE = 20;
 
-    int stateId;
+    final int stateId = R.id.item_favorites;
     int currentPage;
 
     MovieData movieData;
 
-    public FavoriteMovies(int id, MovieData movieData)
+    public FavoriteMovies(MovieData movieData)
     {
-        stateId = id;
         currentPage = 1;
         this.movieData = movieData;
     }
@@ -34,12 +34,12 @@ public class FavoriteMovies implements OverviewState{
     }
 
     @Override
-    public void requestForMovies() {
+    public void requestForMovies(AsyncDataListener listener) {
 
     }
 
     @Override
-    public void requestForMoviesMore() {
+    public void requestForMoviesMore(AsyncDataListener listener) {
 
     }
 

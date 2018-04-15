@@ -17,36 +17,23 @@ public class OverviewStateContext implements StateContext <OverviewState> {
     OverviewState currentState;
     OverviewStateFactory stateFactory;
     Context context;
-    AsyncDataListener listener;
 
-    public OverviewStateContext(Context context, AsyncDataListener listener, OverviewStateFactory factory)
+    public OverviewStateContext(Context context, OverviewStateFactory factory)
     {
         stateFactory = factory;
         this.context = context;
-        this.listener = listener;
 
         //Default state is PopularMovies state
-        try
-        {
-            currentState =  stateFactory.getState(OverviewStateFactory.POPULAR_STATE);
-        }catch (UnknownStateError er)
-        {
-            Log.e("OverviewStateContext", "Error initializing the state: " + er.getMessage());
-        }
+        currentState =  stateFactory.getState(OverviewStateEnum.POPULAR_STATE);
     }
 
     @Override
-    public void setState(int state) throws UnknownStateError
+    public void setState(OverviewStateEnum state)
     {
-        try {
-            currentState.exit();
+        currentState.exit();
 
-            currentState = stateFactory.getState(state);
-            currentState.enter();
-        }catch (UnknownStateError e)
-        {
-            throw e;
-        }
+        currentState = stateFactory.getState(state);
+        currentState.enter();
     }
 
     @Override

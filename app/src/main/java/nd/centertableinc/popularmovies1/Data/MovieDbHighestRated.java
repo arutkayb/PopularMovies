@@ -16,20 +16,18 @@ import nd.centertableinc.popularmovies1.R;
 
 public class MovieDbHighestRated extends TheMovieDb {
     private String apiKey;
-    private AsyncDataListener asyncDataListener;
     private Context context;
     private HttpUtil httpUtil;
 
-    public MovieDbHighestRated(Context context, AsyncDataListener asyncDataListener){
-        this.asyncDataListener = asyncDataListener;
+    public MovieDbHighestRated(Context context){
         this.context = context;
         this.apiKey = context.getResources().getString(R.string.api_key);
 
-        httpUtil = new HttpUtil(context, asyncDataListener);
+        httpUtil = new HttpUtil(context);
     }
 
     @Override
-    public void requestForMovies(int page)
+    public void requestForMovies(int page, AsyncDataListener asyncDataListener)
     {
         Uri.Builder builder = new Uri.Builder();
         builder.scheme("https")
@@ -43,7 +41,7 @@ public class MovieDbHighestRated extends TheMovieDb {
         String popularMoviesUrl = builder.build().toString();
 
         try {
-            httpUtil.getRequest(popularMoviesUrl);
+            httpUtil.getRequest(popularMoviesUrl, asyncDataListener);
         }catch (IOException ex)
         {
             Log.e("MovieDb", "requestForTheMostPopularMovies IO Exception: " + ex.toString());

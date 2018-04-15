@@ -10,6 +10,6 @@ import nd.centertableinc.popularmovies1.Activity.State;
 public interface OverviewState extends State{
     void enter();
     void exit();
-    void requestForMovies();
-    void requestForMoviesMore();
+    void requestForMovies(AsyncDataListener listener);
+    void requestForMoviesMore(AsyncDataListener listener);
 }

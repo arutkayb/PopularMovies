@@ -18,6 +18,7 @@ import java.util.List;
 
 import nd.centertableinc.popularmovies1.Activity.MovieDetails.MovieDetailsActivity;
 import nd.centertableinc.popularmovies1.Activity.MovieOverview.OverviewStates.OverviewStateContext;
+import nd.centertableinc.popularmovies1.Activity.MovieOverview.OverviewStates.OverviewStateEnum;
 import nd.centertableinc.popularmovies1.Activity.MovieOverview.OverviewStates.OverviewStateFactory;
 import nd.centertableinc.popularmovies1.Adapter.MovieOverviewAdapter;
 import nd.centertableinc.popularmovies1.Data.Utils.JsonUtil;
@@ -25,7 +26,6 @@ import nd.centertableinc.popularmovies1.Activity.AsyncDataListener;
 import nd.centertableinc.popularmovies1.Activity.RecyclerViewContainer;
 import nd.centertableinc.popularmovies1.Data.RecyclerViewItems.MovieItem;
 import nd.centertableinc.popularmovies1.Data.Utils.MovieItemUtil;
-import nd.centertableinc.popularmovies1.Data.Utils.StateMachineUtil;
 import nd.centertableinc.popularmovies1.R;
 
 public class MovieOverviewActivity extends AppCompatActivity implements RecyclerViewContainer,AsyncDataListener<String> {
@@ -47,12 +47,12 @@ public class MovieOverviewActivity extends AppCompatActivity implements Recycler
 
         setRecyclerViewLayoutManager(getResources().getConfiguration());
 
-        OverviewStateFactory overviewStateFactory = new OverviewStateFactory(this,this);
-        overviewStateContext = new OverviewStateContext(this, this, overviewStateFactory);
+        OverviewStateFactory overviewStateFactory = new OverviewStateFactory(this);
+        overviewStateContext = new OverviewStateContext(this, overviewStateFactory);
 
-        StateMachineUtil.setState(overviewStateContext, OverviewStateFactory.HIGHEST_RATED_STATE);
+        overviewStateContext.setState(OverviewStateEnum.HIGHEST_RATED_STATE);
 
-        overviewStateContext.getCurrentState().requestForMovies();
+        overviewStateContext.getCurrentState().requestForMovies(this);
     }
 
     @Override
@@ -115,7 +115,7 @@ public class MovieOverviewActivity extends AppCompatActivity implements Recycler
     @Override
     public void itemHitListener(int itemPosition)
     {
-        overviewStateContext.getCurrentState().requestForMoviesMore();
+        overviewStateContext.getCurrentState().requestForMoviesMore(this);
     }
 
     @Override
@@ -133,24 +133,16 @@ public class MovieOverviewActivity extends AppCompatActivity implements Recycler
 
         switch (item.getItemId()) {
             case R.id.item_most_popular:
-                if(currentStateId != OverviewStateFactory.POPULAR_STATE) {
-                    movieStateChanged(OverviewStateFactory.POPULAR_STATE);
-                }
-                break;
             case R.id.item_highest_rated:
-                if(currentStateId != OverviewStateFactory.HIGHEST_RATED_STATE) {
-                    movieStateChanged(OverviewStateFactory.HIGHEST_RATED_STATE);
-                }
-                break;
             case R.id.item_favorites:
-                if(currentStateId != OverviewStateFactory.FAVORITE_STATE) {
-                    movieStateChanged(OverviewStateFactory.FAVORITE_STATE);
-                }
+                clearMovies();
+                overviewStateContext.setState(OverviewStateEnum.getById(item.getItemId()));
+                overviewStateContext.getCurrentState().requestForMovies(this);
                 break;
             case R.id.item_refresh:
                 clearMovies();
-                StateMachineUtil.setState(overviewStateContext, overviewStateContext.getCurrentState().getStateId());
-                overviewStateContext.getCurrentState().requestForMovies();
+                overviewStateContext.setState(OverviewStateEnum.getById(overviewStateContext.getCurrentState().getStateId()));
+                overviewStateContext.getCurrentState().requestForMovies(this);
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -164,13 +156,6 @@ public class MovieOverviewActivity extends AppCompatActivity implements Recycler
         movieItems.clear();
         movieOverviewAdapter.setMovieItems(movieItems);
         recyclerView.setAdapter(movieOverviewAdapter);
-    }
-
-    private void movieStateChanged(int state)
-    {
-        clearMovies();
-        StateMachineUtil.setState(overviewStateContext, state);
-        overviewStateContext.getCurrentState().requestForMovies();
     }
 
 }

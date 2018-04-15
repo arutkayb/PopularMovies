@@ -20,16 +20,14 @@ import okhttp3.Response;
  */
 
 public class HttpUtil{
-    AsyncDataListener listener;
     Context context;
 
-    public HttpUtil(Context context, AsyncDataListener listener)
+    public HttpUtil(Context context)
     {
-        this.listener = listener;
         this.context = context;
     }
 
-    public void getRequest(String url) throws IOException {
+    public void getRequest(String url, final AsyncDataListener listener) throws IOException {
         OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder()
