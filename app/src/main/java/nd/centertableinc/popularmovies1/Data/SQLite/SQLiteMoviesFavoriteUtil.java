@@ -1,9 +1,15 @@
 package nd.centertableinc.popularmovies1.Data.SQLite;
 
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import nd.centertableinc.popularmovies1.Data.RecyclerViewItems.MovieItem;
@@ -35,8 +41,7 @@ public class SQLiteMoviesFavoriteUtil {
 
     public void saveMovie(MovieItem movieItem)
     {
-        String query;
-        Map<String, String> record = new HashMap<>();
+        ContentValues record = new ContentValues();
 
         record.put(FAVORITES_COLUMN_MOVIE_ID, String.valueOf(movieItem.getId()));
         record.put(FAVORITES_COLUMN_VOTE_COUNT, String.valueOf(movieItem.getVoteCount()));
@@ -51,30 +56,77 @@ public class SQLiteMoviesFavoriteUtil {
         record.put(FAVORITES_COLUMN_OVERVIEW, movieItem.getOverview());
         record.put(FAVORITES_COLUMN_RELEASE_DATE, movieItem.getReleaseDate());
 
-        query = SQLiteUtil.getInsertQuery(TABLE_NAME_MOVIES_FAVORITE, record);
-        sqLiteDatabase.execSQL(query);
+        sqLiteDatabase.insert(TABLE_NAME_MOVIES_FAVORITE, null, record);
+        sqLiteDatabase.close();
     }
 
-    public MovieItem getMovie(String movieId)
+    public List<MovieItem> getAllMovies()
     {
-        String query;
-        Map<String, String> record = new HashMap<>();
+        MovieItem movieItem;
+        List<MovieItem> movieItems = new ArrayList<>();
 
-        record.put(FAVORITES_COLUMN_MOVIE_ID, movieId);
+        String query = "SELECT * FROM " + TABLE_NAME_MOVIES_FAVORITE;
 
-        query = SQLiteUtil.getSelectQuery(TABLE_NAME_MOVIES_FAVORITE, null, record);
+        Cursor cursor = sqLiteDatabase.rawQuery(query, null);
 
-        //TODO: fill here
-        return null;
+        if (cursor.moveToFirst()) {
+            do {
+                if((movieItem = getMovieItemViaCursor(cursor)) != null)
+                    movieItems.add(movieItem);
+
+            } while (cursor.moveToNext());
+        }
+
+        sqLiteDatabase.close();
+        return movieItems;
     }
 
-    public void deleteMovie(String movieId)
+    public boolean isFav(int movieId)
     {
-        Map<String, String> record = new HashMap<>();
-        record.put(FAVORITES_COLUMN_MOVIE_ID, movieId);
+        List<MovieItem> movieItems = new ArrayList<>();
 
-        String query = SQLiteUtil.getDeleteQuery(TABLE_NAME_MOVIES_FAVORITE, record);
+        String query = "SELECT * FROM " + TABLE_NAME_MOVIES_FAVORITE + " WHERE "
+                + FAVORITES_COLUMN_MOVIE_ID + " = " + String.valueOf(movieId);
 
-        sqLiteDatabase.execSQL(query);
+        Cursor cursor = sqLiteDatabase.rawQuery(query, null);
+
+        sqLiteDatabase.close();
+        return cursor.getCount() > 0;
+    }
+
+    public boolean deleteMovie(String movieId)
+    {
+        String whereClause = FAVORITES_COLUMN_MOVIE_ID + " = " + movieId;
+        boolean res = sqLiteDatabase.delete(TABLE_NAME_MOVIES_FAVORITE, whereClause, null) > 0;
+
+        sqLiteDatabase.close();
+
+        return res;
+    }
+
+    public MovieItem getMovieItemViaCursor(Cursor cursor)
+    {
+        MovieItem movieItem = new MovieItem();
+
+        try {
+            movieItem.setVoteCount(cursor.getInt(cursor.getColumnIndex(FAVORITES_COLUMN_VOTE_COUNT)));
+            movieItem.setVoteAverage(cursor.getDouble(cursor.getColumnIndex(FAVORITES_COLUMN_VOTE_AVERAGE)));
+            movieItem.setTitle(cursor.getString(cursor.getColumnIndex(FAVORITES_COLUMN_TITLE)));
+            movieItem.setPopularity(cursor.getDouble(cursor.getColumnIndex(FAVORITES_COLUMN_POPULARITY)));
+            movieItem.setPosterPath(cursor.getString(cursor.getColumnIndex(FAVORITES_COLUMN_POSTER_PATH)));
+            movieItem.setOrigLanguage(cursor.getString(cursor.getColumnIndex(FAVORITES_COLUMN_ORIGINAL_LANGUAGE)));
+            movieItem.setOrigTitle(cursor.getString(cursor.getColumnIndex(FAVORITES_COLUMN_ORIGINAL_TITLE)));
+            movieItem.setBackdropPath(cursor.getString(cursor.getColumnIndex(FAVORITES_COLUMN_BACKDROP_PATH)));
+            movieItem.setAdult(cursor.getInt(cursor.getColumnIndex(FAVORITES_COLUMN_IS_ADULT)) > 0);
+            movieItem.setOverview(cursor.getString(cursor.getColumnIndex(FAVORITES_COLUMN_OVERVIEW)));
+            movieItem.setReleaseDate(cursor.getString(cursor.getColumnIndex(FAVORITES_COLUMN_RELEASE_DATE)));
+        }
+        catch (SQLException ex)
+        {
+            movieItem = null;
+            Log.e(this.getClass().getName(), ex.toString());
+        }
+
+        return movieItem;
     }
 }

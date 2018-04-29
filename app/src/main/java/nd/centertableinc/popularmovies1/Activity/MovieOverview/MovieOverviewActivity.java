@@ -122,7 +122,7 @@ public class MovieOverviewActivity extends AppCompatActivity implements Recycler
     public boolean onCreateOptionsMenu(Menu menu) {
 
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.appbar, menu);
+        inflater.inflate(R.menu.movies_overview_bar, menu);
 
         return super.onCreateOptionsMenu(menu);
     }
