@@ -4,18 +4,14 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import nd.centertableinc.popularmovies1.Data.RecyclerViewItems.MovieItem;
-import nd.centertableinc.popularmovies1.Data.Utils.StringUtil;
 
-public class SQLiteMoviesFavoriteUtil {
+public class SQLiteMoviesFavorite implements SQLiteMovies {
     public static final String TABLE_NAME_MOVIES_FAVORITE = "MOVIES_FAVORITE";
 
     public static final String FAVORITES_COLUMN_ID = "_ID"; // auto increment uid
@@ -34,7 +30,36 @@ public class SQLiteMoviesFavoriteUtil {
 
     private SQLiteDatabase sqLiteDatabase;
 
-    public SQLiteMoviesFavoriteUtil(SQLiteDatabase sqLiteDatabase)
+    @Override
+    public void onCreate(SQLiteDatabase sqLiteDatabase) {
+        final String SQL_CREATE_MOVIES_FAVORITE_TABLE = "CREATE TABLE "+
+                TABLE_NAME_MOVIES_FAVORITE + "(" +
+                FAVORITES_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                FAVORITES_COLUMN_MOVIE_ID + " INTEGER," +
+                FAVORITES_COLUMN_VOTE_COUNT + " INTEGER," +
+                FAVORITES_COLUMN_VOTE_AVERAGE + " REAL," +
+                FAVORITES_COLUMN_TITLE + " TEXT," +
+                FAVORITES_COLUMN_POPULARITY + " REAL," +
+                FAVORITES_COLUMN_POSTER_PATH + " TEXT," +
+                FAVORITES_COLUMN_ORIGINAL_LANGUAGE + " TEXT," +
+                FAVORITES_COLUMN_ORIGINAL_TITLE + " TEXT," +
+                FAVORITES_COLUMN_BACKDROP_PATH + " TEXT," +
+                FAVORITES_COLUMN_IS_ADULT + " INTEGER," +
+                FAVORITES_COLUMN_OVERVIEW + " TEXT," +
+                FAVORITES_COLUMN_RELEASE_DATE + " TEXT" +
+                ");";
+
+        sqLiteDatabase.execSQL(SQL_CREATE_MOVIES_FAVORITE_TABLE);
+        sqLiteDatabase.close();
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + SQLiteMoviesFavorite.TABLE_NAME_MOVIES_FAVORITE);
+        onCreate(sqLiteDatabase);
+    }
+
+    public SQLiteMoviesFavorite(SQLiteDatabase sqLiteDatabase)
     {
         this.sqLiteDatabase = sqLiteDatabase;
     }
@@ -81,12 +106,12 @@ public class SQLiteMoviesFavoriteUtil {
         return movieItems;
     }
 
-    public boolean isFav(int movieId)
+    public boolean isFav(String movieId)
     {
         List<MovieItem> movieItems = new ArrayList<>();
 
         String query = "SELECT * FROM " + TABLE_NAME_MOVIES_FAVORITE + " WHERE "
-                + FAVORITES_COLUMN_MOVIE_ID + " = " + String.valueOf(movieId);
+                + FAVORITES_COLUMN_MOVIE_ID + " = " + movieId;
 
         Cursor cursor = sqLiteDatabase.rawQuery(query, null);
 

@@ -1,21 +1,15 @@
 package nd.centertableinc.popularmovies1.Data.SQLite;
 
-import android.content.AsyncTaskLoader;
 import android.content.Context;
+import android.content.CursorLoader;
+import android.net.Uri;
 
-import java.util.List;
-import nd.centertableinc.popularmovies1.Data.RecyclerViewItems.MovieItem;
-
-public class SQLiteLoader extends AsyncTaskLoader<List<MovieItem>>{
-
+public class SQLiteLoader extends CursorLoader {
     public SQLiteLoader(Context context) {
         super(context);
     }
 
-    @Override
-    public List<MovieItem> loadInBackground() {
-        return null;
+    public SQLiteLoader(Context context, Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+        super(context, uri, projection, selection, selectionArgs, sortOrder);
     }
-
-
 }
