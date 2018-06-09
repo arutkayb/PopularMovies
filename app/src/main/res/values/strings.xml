@@ -22,4 +22,6 @@
 
     <string name="yes">Yes</string>
     <string name="no">No</string>
+
+    <string name="nothing_to_load">Nothing to load...</string>
 </resources>
