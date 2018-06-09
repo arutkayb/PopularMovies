@@ -7,6 +7,8 @@
     <string name="highest_rated"> Highest Rated</string>
     <string name="popularity"> Popularity</string>
     <string name="favorites"> Favorites</string>
+    <string name="fav">Fav this!</string>
+    <string name="unfav">Un-Fav this!</string>
     <string name="most_popular"> Most Popular</string>
     <string name="adult"> Adult</string>
     <string name="orig_language"> Original Language</string>
@@ -20,4 +22,6 @@
 
     <string name="yes">Yes</string>
     <string name="no">No</string>
+
+    <string name="nothing_to_load">Nothing to load...</string>
 </resources>

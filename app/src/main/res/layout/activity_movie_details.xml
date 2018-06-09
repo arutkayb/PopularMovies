@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="nd.centertableinc.popularmovies1.Activity.MovieDetails.MovieDetailsActivity">
+    tools:context="nd.centertableinc.popularmovies1.activity.movie_details.MovieDetailsActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -20,7 +20,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/is_favorite_image_view"
+            android:id="@+id/backdrop_image_view"
             android:contentDescription="@null"
             android:gravity="center"
             android:layout_marginBottom="10dp"
@@ -29,10 +29,11 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/backdrop_image_view"
+            android:id="@+id/is_favorite_image_view"
             android:contentDescription="@null"
             android:gravity="center"
             android:layout_marginBottom="10dp"
+            android:src="@drawable/ic_favorites_border_24dp"
             />
 
         <TextView
