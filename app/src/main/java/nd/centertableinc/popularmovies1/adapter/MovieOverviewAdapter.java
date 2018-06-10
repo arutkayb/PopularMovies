@@ -12,9 +12,9 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import nd.centertableinc.popularmovies1.data.utils.MovieItemUtil;
+import nd.centertableinc.popularmovies1.data.utils.MovieUtil;
 import nd.centertableinc.popularmovies1.activity.RecyclerViewContainer;
-import nd.centertableinc.popularmovies1.data.recycler_view_items.MovieItem;
+import nd.centertableinc.popularmovies1.data.movie.MovieItem;
 import nd.centertableinc.popularmovies1.R;
 
 /**
@@ -99,7 +99,7 @@ public class MovieOverviewAdapter extends RecyclerView.Adapter<MovieOverviewAdap
             popularity.setText(popularityString);
 
             poster.setContentDescription(movieItem.getTitle());
-            String imgUrl = MovieItemUtil.getSmallImageUrlFromImagePath(movieItem.getPosterPath());
+            String imgUrl = MovieUtil.getSmallImageUrlFromImagePath(movieItem.getPosterPath());
             Picasso.with(context).load(imgUrl).into(poster);
         }
 

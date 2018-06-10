@@ -3,30 +3,27 @@ package nd.centertableinc.popularmovies1.data.utils.provider_utils;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.Movie;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import nd.centertableinc.popularmovies1.activity.AsyncDataListener;
 import nd.centertableinc.popularmovies1.data.movies_provider.SQLiteMoviesFavorite;
-import nd.centertableinc.popularmovies1.data.movies_provider.SQLiteProvider;
-import nd.centertableinc.popularmovies1.data.recycler_view_items.MovieItem;
-import nd.centertableinc.popularmovies1.data.utils.MovieItemUtil;
+import nd.centertableinc.popularmovies1.data.movie.MovieItem;
+import nd.centertableinc.popularmovies1.data.utils.MovieUtil;
 
 import static nd.centertableinc.popularmovies1.data.movies_provider.SQLiteMoviesFavorite.*;
 
 public class MoviesFavoriteUtil {
     private MoviesFavoriteUtil(){}
 
-    public static void requestForMovies(Context context, AsyncDataListener<List<MovieItem>> asyncDataListener){
+    public static void requestForMovies(Context context, AsyncDataListener asyncDataListener){
         Cursor cursor = context.getContentResolver().query(FAVORITE_MOVIE_PROVIDER_URI,
                 SQLiteMoviesFavorite.FAVORITES_PROJECTION,
                 null,
                 null,
                 null);
 
-        List<MovieItem> movieItems = MovieItemUtil.getMovieItemsFromTheMovieCursor(cursor);
+        List<MovieItem> movieItems = MovieUtil.getMovieItemsFromTheMovieCursor(cursor);
 
         asyncDataListener.onDataLoad(movieItems);
     }

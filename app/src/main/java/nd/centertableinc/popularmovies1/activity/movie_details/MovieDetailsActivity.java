@@ -10,8 +10,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import nd.centertableinc.popularmovies1.data.recycler_view_items.MovieItem;
-import nd.centertableinc.popularmovies1.data.utils.MovieItemUtil;
+import nd.centertableinc.popularmovies1.data.movie.MovieItem;
+import nd.centertableinc.popularmovies1.data.utils.MovieUtil;
 import nd.centertableinc.popularmovies1.data.utils.provider_utils.MoviesFavoriteUtil;
 import nd.centertableinc.popularmovies1.R;
 
@@ -82,7 +82,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
         popularity.setText(popularityString);
 
         backdrop.setContentDescription(titleStr);
-        String imgUrlStr = MovieItemUtil.getLargeImageUrlFromImagePath(movieItem.getBackdropPath());
+        String imgUrlStr = MovieUtil.getLargeImageUrlFromImagePath(movieItem.getBackdropPath());
         Picasso.with(this).load(imgUrlStr).into(backdrop);
 
         String origLangStr = getString(R.string.orig_language) + ": " + movieItem.getOrigLanguage();

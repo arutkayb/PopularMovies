@@ -1,7 +1,9 @@
-package nd.centertableinc.popularmovies1.data.recycler_view_items;
+package nd.centertableinc.popularmovies1.data.movie;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import java.util.List;
 
 /**
  * Created by Rutkay on 04.03.2018.
@@ -21,6 +23,8 @@ public class MovieItem implements Parcelable{
     private boolean isAdult;
     private String overview;
     private String releaseDate;
+
+    private List<MovieReview> review;
 
     public static final String PARCELABLE_NAME = "movieItem";
 
@@ -73,7 +77,6 @@ public class MovieItem implements Parcelable{
     }
 
     public MovieItem(){
-
     }
 
     public int getVoteCount() {

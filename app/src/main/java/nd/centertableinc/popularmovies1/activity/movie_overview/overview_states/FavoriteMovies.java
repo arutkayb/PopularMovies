@@ -29,7 +29,7 @@ public class FavoriteMovies implements OverviewState{
 
     @Override
     public void requestForMovies(AsyncDataListener listener) {
-        movieData.requestForMovies(1,listener);
+        movieData.requestForMovies(listener, 1);
     }
 
     @Override

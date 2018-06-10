@@ -1,5 +1,12 @@
 package nd.centertableinc.popularmovies1.data;
 
+import android.net.Uri;
+import android.util.Log;
+
+import java.io.IOException;
+
+import nd.centertableinc.popularmovies1.activity.AsyncDataListener;
+
 /**
  * Created by abiyik on 26.03.2018.
  */
@@ -33,6 +40,9 @@ public class TheMovieDb{
     public final static String TOP_RATED = "top_rated";
     public final static String POPULAR = "popular";
 
+    public final static String VIDEOS = "videos";
+    public final static String REVIEWS = "reviews";
+
     public final static String POSTER_BASE_URL = "image.tmdb.org";
     public final static String POSTER_T = "t";
     public final static String POSTER_P = "p";
@@ -50,4 +60,5 @@ public class TheMovieDb{
     {
 
     }
+
 }

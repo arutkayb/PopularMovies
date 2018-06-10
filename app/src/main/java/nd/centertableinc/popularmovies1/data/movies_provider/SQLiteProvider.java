@@ -1,20 +1,12 @@
 package nd.centertableinc.popularmovies1.data.movies_provider;
 
 import android.content.ContentProvider;
-import android.content.ContentUris;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.UriMatcher;
 import android.database.Cursor;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.util.Log;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import nd.centertableinc.popularmovies1.data.recycler_view_items.MovieItem;
 
 
 public class SQLiteProvider extends ContentProvider {

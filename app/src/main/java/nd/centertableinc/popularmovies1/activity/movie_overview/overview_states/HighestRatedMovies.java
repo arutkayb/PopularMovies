@@ -33,13 +33,13 @@ public class HighestRatedMovies implements OverviewState{
     @Override
     public void requestForMovies(AsyncDataListener listener) {
         currentPage = 1;
-        movieData.requestForMovies(currentPage,listener);
+        movieData.requestForMovies(listener, currentPage);
     }
 
     @Override
     public void requestForMoviesMore(AsyncDataListener listener) {
         currentPage++;
-        movieData.requestForMovies(currentPage,listener);
+        movieData.requestForMovies(listener, currentPage);
     }
 
     @Override

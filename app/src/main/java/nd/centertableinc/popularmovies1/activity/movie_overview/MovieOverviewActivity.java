@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.OverScroller;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -18,14 +17,13 @@ import java.util.List;
 
 import nd.centertableinc.popularmovies1.activity.movie_details.MovieDetailsActivity;
 import nd.centertableinc.popularmovies1.activity.movie_overview.overview_states.FavoriteMovies;
-import nd.centertableinc.popularmovies1.activity.movie_overview.overview_states.OverviewState;
 import nd.centertableinc.popularmovies1.activity.movie_overview.overview_states.OverviewStateContext;
 import nd.centertableinc.popularmovies1.activity.movie_overview.overview_states.OverviewStateEnum;
 import nd.centertableinc.popularmovies1.activity.movie_overview.overview_states.OverviewStateFactory;
 import nd.centertableinc.popularmovies1.adapter.MovieOverviewAdapter;
 import nd.centertableinc.popularmovies1.activity.AsyncDataListener;
 import nd.centertableinc.popularmovies1.activity.RecyclerViewContainer;
-import nd.centertableinc.popularmovies1.data.recycler_view_items.MovieItem;
+import nd.centertableinc.popularmovies1.data.movie.MovieItem;
 import nd.centertableinc.popularmovies1.R;
 
 public class MovieOverviewActivity extends AppCompatActivity implements RecyclerViewContainer,AsyncDataListener<List<MovieItem>> {
