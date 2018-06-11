@@ -1,21 +1,35 @@
 package nd.centertableinc.popularmovies1.activity.movie_details;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import nd.centertableinc.popularmovies1.activity.AsyncDataListener;
 import nd.centertableinc.popularmovies1.data.movie.MovieItem;
+import nd.centertableinc.popularmovies1.data.movie.MovieReview;
+import nd.centertableinc.popularmovies1.data.movie.MovieTrailer;
+import nd.centertableinc.popularmovies1.data.utils.HttpUtil;
 import nd.centertableinc.popularmovies1.data.utils.MovieUtil;
+import nd.centertableinc.popularmovies1.data.utils.movie_db.MovieDBReviews;
+import nd.centertableinc.popularmovies1.data.utils.movie_db.MovieDBTrailers;
+import nd.centertableinc.popularmovies1.data.utils.movie_db.movie_types.MoviesDbFavorite;
 import nd.centertableinc.popularmovies1.data.utils.provider_utils.MoviesFavoriteUtil;
 import nd.centertableinc.popularmovies1.R;
 
-public class MovieDetailsActivity extends AppCompatActivity {
+public class MovieDetailsActivity extends AppCompatActivity implements AsyncDataListener{
     ImageView favorite;
 
     ImageView backdrop;
@@ -28,9 +42,18 @@ public class MovieDetailsActivity extends AppCompatActivity {
     TextView overview;
     TextView releaseDate;
 
+    Button button_trailer;
+    Button button_reviews;
+
     MovieItem selectedMovie;
 
+    MovieDBReviews movieDBReviews;
+    MovieDBTrailers movieDBTrailers;
+
     boolean isFavorite = false;
+
+    List<MovieReview> reviews;
+    List<MovieTrailer> trailers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +66,33 @@ public class MovieDetailsActivity extends AppCompatActivity {
         {
             Log.e(getClass().getName(), "Action bar error");
         }
+
+        initialize();
+
+        if(selectedMovie != null)
+            bindHolder(selectedMovie);
+        else
+            finish();
+    }
+
+    private void initialize(){
+        reviews = new ArrayList<>();
+        trailers = new ArrayList<>();
+
+        selectedMovie = getIntent().getParcelableExtra(MovieItem.PARCELABLE_NAME);
+
+        initializeViews();
+
+        String movieId = String.valueOf(selectedMovie.getId());
+
+        movieDBReviews = new MovieDBReviews(this);
+        movieDBReviews.requestForMovieReviews(this, movieId);
+
+        movieDBTrailers = new MovieDBTrailers(this);
+        movieDBTrailers.requestForMovieVideos(this, movieId);
+    }
+
+    private void initializeViews(){
 
         backdrop = findViewById(R.id.backdrop_image_view);
         title = findViewById(R.id.title_text_view);
@@ -62,12 +112,45 @@ public class MovieDetailsActivity extends AppCompatActivity {
             }
         });
 
-        selectedMovie = getIntent().getParcelableExtra(MovieItem.PARCELABLE_NAME);
+        button_reviews = findViewById(R.id.button_reviews);
+        button_reviews.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                userReviewsOnClick(reviews);
+            }
+        });
+        button_reviews.setEnabled(false);
 
-        if(selectedMovie != null)
-            bindHolder(selectedMovie);
-        else
-            finish();
+        button_trailer = findViewById(R.id.button_trailer);
+        button_trailer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(trailers.size()>0) {
+                    Uri uri = null;
+
+                    for(int i = 0; i < trailers.size(); i++) {
+                        //find the first youtube trailer and stop to navigate to there
+                        if( trailers.get(i).getSite().toLowerCase().contains("youtube")) {
+                            uri = getYoutubeSpecificTrailerUri(trailers.get(i));
+                            break;
+                        }
+                    }
+
+                    HttpUtil.navigateToUri(getBaseContext(), uri);
+                }
+            }
+        });
+        button_trailer.setEnabled(false);
+    }
+
+    private Uri getYoutubeSpecificTrailerUri(MovieTrailer trailer){
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme("http")
+                .authority(trailer.getSite().toLowerCase() + ".com")
+                .appendPath("watch")
+                .appendQueryParameter("v",trailer.getKey());
+
+        return builder.build();
     }
 
     public void bindHolder(MovieItem movieItem)
@@ -151,4 +234,41 @@ public class MovieDetailsActivity extends AppCompatActivity {
         return favoriteIcon;
     }
 
+    @Override
+    public void onDataLoad(Object result){
+        //result may be a MovieReview or a MovieTrailer
+        //TODO: refactor here to not do casting or something better
+
+        List<MovieReview> reviews = null;
+        List<MovieTrailer> trailers = null;
+
+        try {
+            if (((List) result).get(0) instanceof MovieReview) {
+                reviews = (List<MovieReview>) result;
+                if (reviews.size() > 0) {
+                    this.reviews = reviews;
+                    button_reviews.setEnabled(true);
+                }
+            } else if (((List) result).get(0) instanceof MovieTrailer) {
+                trailers = (List<MovieTrailer>) result;
+
+                if (trailers.size() > 0) {
+                    this.trailers = trailers;
+                    button_trailer.setEnabled(true);
+                }
+            }
+        }catch (ClassCastException ex){
+            Log.e(getClass().getName(), "onDataLoad, Cast exception: " + ex.toString());
+        }catch (Exception ex){
+            Log.e(getClass().getName(), "onDataLoad, Exception: " + ex.toString());
+        }
+    }
+
+    private void userReviewsOnClick(List<MovieReview> movieReviews){
+        Intent intent = new Intent(this, MovieReviewsActivity.class);
+
+        intent.putParcelableArrayListExtra(MovieReview.PARCELABLE_NAME, (ArrayList<? extends Parcelable>) movieReviews);
+
+        startActivity(intent);
+    }
 }

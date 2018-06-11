@@ -84,6 +84,9 @@ public class MovieOverviewActivity extends AppCompatActivity implements Recycler
 
     private void createMovieCards(List<MovieItem> items)
     {
+        if(items == null)
+            return;
+
         if(movieItems == null)
             movieItems = new ArrayList<>();
 
@@ -104,14 +107,13 @@ public class MovieOverviewActivity extends AppCompatActivity implements Recycler
     @Override
     public void onCustomClickListener(int itemPosition)
     {
-        if(movieItems != null) {
+        if(movieItems != null){
             Intent intent = new Intent(this, MovieDetailsActivity.class);
             intent.putExtra(MovieItem.PARCELABLE_NAME, movieItems.get(itemPosition));
             startActivity(intent);
         }
-        else
-        {
-            Log.e("MoviewOverviewActivity", "Cannot start activity, movieItems is null");
+        else{
+            Log.e("MovieOverviewActivity", "Cannot start activity, movieItems is null");
         }
     }
 

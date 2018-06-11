@@ -4,19 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="nd.centertableinc.popularmovies1.activity.movie_overview.MovieOverviewActivity"
-    >
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/nothing_to_load"
-        android:gravity="center"
-        android:id="@+id/movie_overview_text_nothing_to_load"/>
+    tools:context=".activity.movie_details.MovieReviewsActivity">
+
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/movie_overview_recycler_view"
+        android:id="@+id/movie_review_recycler_view"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp">
 

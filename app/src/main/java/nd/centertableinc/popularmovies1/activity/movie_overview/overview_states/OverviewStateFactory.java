@@ -6,9 +6,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import nd.centertableinc.popularmovies1.activity.StateFactory;
-import nd.centertableinc.popularmovies1.data.MovieDbHighestRated;
-import nd.centertableinc.popularmovies1.data.MovieDbPopular;
-import nd.centertableinc.popularmovies1.data.MoviesDbFavorite;
+import nd.centertableinc.popularmovies1.data.utils.movie_db.movie_types.MovieDbHighestRated;
+import nd.centertableinc.popularmovies1.data.utils.movie_db.movie_types.MovieDbPopular;
+import nd.centertableinc.popularmovies1.data.utils.movie_db.movie_types.MoviesDbFavorite;
 import nd.centertableinc.popularmovies1.R;
 
 /**

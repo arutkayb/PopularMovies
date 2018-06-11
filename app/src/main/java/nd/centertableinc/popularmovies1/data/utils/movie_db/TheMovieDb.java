@@ -1,4 +1,4 @@
-package nd.centertableinc.popularmovies1.data;
+package nd.centertableinc.popularmovies1.data.utils.movie_db;
 
 import android.net.Uri;
 import android.util.Log;

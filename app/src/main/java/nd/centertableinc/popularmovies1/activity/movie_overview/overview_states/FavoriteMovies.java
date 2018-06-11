@@ -1,7 +1,7 @@
 package nd.centertableinc.popularmovies1.activity.movie_overview.overview_states;
 
 import nd.centertableinc.popularmovies1.activity.AsyncDataListener;
-import nd.centertableinc.popularmovies1.data.MovieData;
+import nd.centertableinc.popularmovies1.data.utils.movie_db.movie_types.MovieData;
 import nd.centertableinc.popularmovies1.R;
 
 /**

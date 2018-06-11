@@ -10,9 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nd.centertableinc.popularmovies1.data.movie.MovieReview;
+import nd.centertableinc.popularmovies1.data.movie.MovieTrailer;
 import nd.centertableinc.popularmovies1.data.movies_provider.SQLiteMoviesFavorite;
 import nd.centertableinc.popularmovies1.data.movie.MovieItem;
-import nd.centertableinc.popularmovies1.data.TheMovieDb;
+import nd.centertableinc.popularmovies1.data.utils.movie_db.TheMovieDb;
 
 /**
  * Created by Rutkay on 14.03.2018.
@@ -51,6 +52,15 @@ public class MovieUtil {
         private static final String AUTHOR = "author"; //string
         private static final String CONTENT = "content"; //string
         private static final String URL = "url"; //string
+    }
+
+    private static final class TheMovieDbMovieTrailerJsonFields {
+        // json object fields of "results" array
+        private static final String ID = "id"; //string
+        private static final String KEY = "key"; //string
+        private static final String NAME = "name"; //string
+        private static final String TYPE = "type"; //string
+        private static final String SITE = "site"; //string
     }
 
     public static List<MovieItem> getMovieItemsFromTheMovieCursor(Cursor cursor)
@@ -192,13 +202,19 @@ public class MovieUtil {
             JSONArray resultsArray = JsonUtil.getJsonArrayFromJsonObj(TheMovieDbJson, TheMovieDbCommonJsonFields.RESULTS);
             if(resultsArray != null)
             {
+                MovieItem item;
+
                 for(int i = 0; i < resultsArray.length(); ++i)
                 {
-                    MovieItem item = getMovieItemFromMovieJson(JsonUtil.getJsonObjectFromJsonArray(resultsArray, i));
-                    movieItems.add(item);
+                    item = getMovieItemFromMovieJson(JsonUtil.getJsonObjectFromJsonArray(resultsArray, i));
+                    if(item != null)
+                        movieItems.add(item);
                 }
             }
         }
+
+        if(movieItems.size() == 0)
+            movieItems = null;
 
         return movieItems;
     }
@@ -299,6 +315,10 @@ public class MovieUtil {
             movieItem.setReleaseDate(releaseDate);
         }
 
+        //sanity check
+        if(releaseDate.isEmpty())
+            movieItem = null;
+
         return movieItem;
     }
 
@@ -350,24 +370,37 @@ public class MovieUtil {
             JSONArray resultsArray = JsonUtil.getJsonArrayFromJsonObj(TheMovieDbJson, TheMovieDbCommonJsonFields.RESULTS);
             if(resultsArray != null)
             {
+                MovieReview review;
+
                 for(int i = 0; i < resultsArray.length(); ++i)
                 {
-                    MovieReview review = getMovieReviewFromMovieJson(JsonUtil.getJsonObjectFromJsonArray(resultsArray, i));
-                    movieReviews.add(review);
+                    review = getMovieReviewFromMovieJson(JsonUtil.getJsonObjectFromJsonArray(resultsArray, i));
+                    if(review != null)
+                        movieReviews.add(review);
                 }
             }
         }
+
+        if(movieReviews.size() == 0)
+            movieReviews = null;
+
         return movieReviews;
     }
 
     private static MovieReview getMovieReviewFromMovieJson(JSONObject movieJson)
     {
-        String id;
-        String author;
-        String content;
-        String url;
+        String id = "";
+        String author = "";
+        String content = "";
+        String url = "";
 
         MovieReview movieReview = new MovieReview();
+
+        if(movieJson.has(TheMovieDbMovieReviewJsonFields.URL))
+        {
+            url = JsonUtil.getStringFromJsonObj(movieJson, TheMovieDbMovieReviewJsonFields.URL);
+            movieReview.setUrl(url);
+        }
 
         if(movieJson.has(TheMovieDbMovieReviewJsonFields.ID))
         {
@@ -378,21 +411,110 @@ public class MovieUtil {
         if(movieJson.has(TheMovieDbMovieReviewJsonFields.AUTHOR))
         {
             author = JsonUtil.getStringFromJsonObj(movieJson, TheMovieDbMovieReviewJsonFields.AUTHOR);
-            movieReview.setId(author);
+            movieReview.setAuthor(author);
         }
 
         if(movieJson.has(TheMovieDbMovieReviewJsonFields.CONTENT))
         {
             content = JsonUtil.getStringFromJsonObj(movieJson, TheMovieDbMovieReviewJsonFields.CONTENT);
-            movieReview.setId(content);
+            movieReview.setContent(content);
         }
 
-        if(movieJson.has(TheMovieDbMovieReviewJsonFields.URL))
-        {
-            url = JsonUtil.getStringFromJsonObj(movieJson, TheMovieDbMovieReviewJsonFields.URL);
-            movieReview.setId(url);
-        }
-        
+        //sanity check
+        if(!url.contains("/review"))
+            movieReview = null;
+
         return movieReview;
+    }
+
+    /*
+    TheMovieDb API result schema:
+    {
+        "id": 550,
+            "results": [
+            {
+                "id": "533ec654c3a36854480003eb",
+                "iso_639_1": "en",
+                "iso_3166_1": "US",
+                "key": "SUXWAEX2jlg",
+                "name": "Trailer 1",
+                "site": "YouTube",
+                "size": 720,
+                "type": "Trailer"
+            }
+        ]
+    }
+    */
+    public static List<MovieTrailer> getMovieTrailersFromTheMovieDbJson(JSONObject TheMovieDbJson)
+    {
+        List<MovieTrailer> movieTrailers = new ArrayList<>();
+
+        if( TheMovieDbJson != null && TheMovieDbJson.has(TheMovieDbCommonJsonFields.RESULTS))
+        {
+            JSONArray resultsArray = JsonUtil.getJsonArrayFromJsonObj(TheMovieDbJson, TheMovieDbCommonJsonFields.RESULTS);
+            if(resultsArray != null)
+            {
+                MovieTrailer video;
+
+                for(int i = 0; i < resultsArray.length(); ++i)
+                {
+                    video = getMovieTrailerFromMovieJson(JsonUtil.getJsonObjectFromJsonArray(resultsArray, i));
+                    if(video != null)
+                        movieTrailers.add(video);
+                }
+            }
+        }
+
+        if(movieTrailers.size() == 0)
+            movieTrailers = null;
+
+        return movieTrailers;
+    }
+
+    private static MovieTrailer getMovieTrailerFromMovieJson(JSONObject movieJson)
+    {
+        String id = "";
+        String key = "";
+        String name = "";
+        String type = "";
+        String site = "";
+
+        MovieTrailer movieTrailer = new MovieTrailer();
+
+        if(movieJson.has(TheMovieDbMovieTrailerJsonFields.ID))
+        {
+            id = JsonUtil.getStringFromJsonObj(movieJson, TheMovieDbMovieTrailerJsonFields.ID);
+            movieTrailer.setId(id);
+        }
+
+        if(movieJson.has(TheMovieDbMovieTrailerJsonFields.NAME))
+        {
+            name = JsonUtil.getStringFromJsonObj(movieJson, TheMovieDbMovieTrailerJsonFields.NAME);
+            movieTrailer.setName(name);
+        }
+
+        if(movieJson.has(TheMovieDbMovieTrailerJsonFields.KEY))
+        {
+            key = JsonUtil.getStringFromJsonObj(movieJson, TheMovieDbMovieTrailerJsonFields.KEY);
+            movieTrailer.setKey(key);
+        }
+
+        if(movieJson.has(TheMovieDbMovieTrailerJsonFields.TYPE))
+        {
+            type = JsonUtil.getStringFromJsonObj(movieJson, TheMovieDbMovieTrailerJsonFields.TYPE);
+            movieTrailer.setType(type);
+        }
+
+        if(movieJson.has(TheMovieDbMovieTrailerJsonFields.SITE))
+        {
+            site = JsonUtil.getStringFromJsonObj(movieJson, TheMovieDbMovieTrailerJsonFields.SITE);
+            movieTrailer.setSite(site);
+        }
+
+        //sanity check
+        if(site.isEmpty() || key.isEmpty())
+            movieTrailer = null;
+
+        return movieTrailer;
     }
 }

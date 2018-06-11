@@ -24,8 +24,6 @@ public class MovieItem implements Parcelable{
     private String overview;
     private String releaseDate;
 
-    private List<MovieReview> review;
-
     public static final String PARCELABLE_NAME = "movieItem";
 
     public static final Parcelable.Creator<MovieItem> CREATOR = new Parcelable.Creator<MovieItem>() {
@@ -62,11 +60,11 @@ public class MovieItem implements Parcelable{
 
     public MovieItem(Parcel parcel) {
         voteCount = parcel.readInt();
-        id = parcel.readInt();;
+        id = parcel.readInt();
         isVideo = (Boolean)parcel.readValue(getClass().getClassLoader());
         voteAverage = parcel.readDouble();
         title = parcel.readString();
-        popularity = parcel.readDouble();;
+        popularity = parcel.readDouble();
         posterPath = parcel.readString();
         origLanguage = parcel.readString();
         origTitle = parcel.readString();

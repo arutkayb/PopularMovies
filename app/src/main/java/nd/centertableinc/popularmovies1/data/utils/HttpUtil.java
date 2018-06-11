@@ -2,6 +2,8 @@ package nd.centertableinc.popularmovies1.data.utils;
 
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
@@ -50,18 +52,30 @@ public class HttpUtil{
 
                     @Override
                     public void onResponse(Call call, final Response response) throws IOException {
-                        ((AppCompatActivity) context).runOnUiThread(new Runnable() {
+                    ((AppCompatActivity) context).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                try{
+                                try {
                                     listener.onDataLoad(response.body().string().toString());
-                                }catch (IOException ex){
+                                } catch (IOException ex) {
                                     Log.e(getClass().getName(), "onResponse IO exception: " + ex.toString());
                                 }
                             }
                         });
                     }
                 });
+    }
+
+    public static void navigateToUri(Context context, Uri uri){
+        if(uri != null ) {
+            Intent httpIntent = new Intent(Intent.ACTION_VIEW);
+            httpIntent.setData(uri);
+
+            context.startActivity(httpIntent);
+        }else
+        {
+            Log.d(context.getClass().getName(), "navigateToUri, uri is empty");
+        }
     }
 
 }

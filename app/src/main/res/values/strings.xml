@@ -24,4 +24,11 @@
     <string name="no">No</string>
 
     <string name="nothing_to_load">Nothing to load...</string>
+
+    <string name="author">Author</string>
+    <string name="content">Content</string>
+    <string name="url">Url</string>
+
+    <string name="button_reviews">Reviews</string>
+    <string name="button_trailer">Trailer</string>
 </resources>

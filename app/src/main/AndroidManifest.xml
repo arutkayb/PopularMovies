@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.movie_overview.MovieOverviewActivity"
+        <activity
+            android:name=".activity.movie_overview.MovieOverviewActivity"
             android:configChanges="orientation|keyboardHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,14 +20,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.movie_details.MovieDetailsActivity"></activity>
+        <activity android:name=".activity.movie_details.MovieDetailsActivity" />
 
         <provider
+            android:name=".data.movies_provider.SQLiteProvider"
             android:authorities="nd.centertableinc.popularmovies1.data.movies_provider"
-            android:multiprocess="true"
-            android:name=".data.movies_provider.SQLiteProvider">
-        </provider>
+            android:multiprocess="true"></provider>
 
+        <activity android:name=".activity.movie_details.MovieReviewsActivity"></activity>
     </application>
 
 </manifest>

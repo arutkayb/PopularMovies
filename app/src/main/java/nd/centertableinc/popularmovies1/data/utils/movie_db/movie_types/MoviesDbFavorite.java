@@ -1,4 +1,4 @@
-package nd.centertableinc.popularmovies1.data;
+package nd.centertableinc.popularmovies1.data.utils.movie_db.movie_types;
 
 import android.content.Context;
 
@@ -21,7 +21,7 @@ public class MoviesDbFavorite extends MovieData {
     }
 
     @Override
-    protected Context getContext(){
+    public Context getContext(){
         return context;
     }
 
@@ -36,12 +36,12 @@ public class MoviesDbFavorite extends MovieData {
 
 
     @Override
-    protected void setListener(AsyncDataListener listener){
+    public void setListener(AsyncDataListener listener){
         this.listener = listener;
     }
 
     @Override
-    protected AsyncDataListener getListener(){
+    public AsyncDataListener getListener(){
         return listener;
     }
 
