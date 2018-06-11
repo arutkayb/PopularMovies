@@ -11,8 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/movie_review_recycler_view"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp">
+        android:layout_marginLeft="@dimen/recycler_card_margin_left"
+        android:layout_marginRight="@dimen/recycler_card_margin_right">
 
     </android.support.v7.widget.RecyclerView>
 

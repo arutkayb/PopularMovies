@@ -13,9 +13,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp">
+        android:layout_marginBottom="@dimen/scroll_view_card_margin_bottom"
+        android:layout_marginLeft="@dimen/scroll_view_card_margin_left"
+        android:layout_marginRight="@dimen/scroll_view_card_margin_right">
 
         <ImageView
             android:layout_width="match_parent"
@@ -23,7 +23,7 @@
             android:id="@+id/backdrop_image_view"
             android:contentDescription="@null"
             android:gravity="center"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="@dimen/scroll_view_card_margin_bottom"
             />
 
         <ImageView
@@ -32,7 +32,7 @@
             android:id="@+id/is_favorite_image_view"
             android:contentDescription="@null"
             android:gravity="center"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="@dimen/scroll_view_card_margin_bottom"
             android:src="@drawable/ic_favorites_border_24dp"
             />
 
@@ -41,21 +41,21 @@
             android:layout_height="wrap_content"
             android:id="@+id/title_text_view"
             android:gravity="left"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="@dimen/scroll_view_card_margin_bottom"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/orig_title_text_view"
             android:gravity="left"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="@dimen/scroll_view_card_margin_bottom"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/vote_average_text_view"
             android:gravity="left"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="@dimen/scroll_view_card_margin_bottom"/>
 
 
         <TextView
@@ -63,7 +63,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/popularity_text_view"
             android:gravity="left"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="@dimen/scroll_view_card_margin_bottom"/>
 
 
         <TextView
@@ -71,7 +71,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/orig_language_text_view"
             android:gravity="left"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="@dimen/scroll_view_card_margin_bottom"/>
 
 
         <TextView
@@ -79,7 +79,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/overview_text_view"
             android:gravity="left"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="@dimen/scroll_view_card_margin_bottom"/>
 
 
         <TextView
@@ -87,7 +87,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/release_date_text_view"
             android:gravity="left"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="@dimen/scroll_view_card_margin_bottom"/>
 
 
         <TextView
@@ -95,7 +95,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/is_adult_text_view"
             android:gravity="left"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="@dimen/scroll_view_card_margin_bottom"/>
 
         <LinearLayout
             android:layout_width="match_parent"

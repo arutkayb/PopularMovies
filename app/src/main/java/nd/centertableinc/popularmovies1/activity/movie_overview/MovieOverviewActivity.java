@@ -176,4 +176,18 @@ public class MovieOverviewActivity extends AppCompatActivity implements Recycler
         overviewStateContext.setState(state);
         overviewStateContext.getCurrentState().requestForMovies(this);
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        String text = movie_overview_text_nothing_to_load.getText().toString();
+        outState.putString("movie_overview_text_nothing_to_load", text);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedState) {
+        super.onRestoreInstanceState(savedState);
+        String text = savedState.getString("movie_overview_text_nothing_to_load");
+        movie_overview_text_nothing_to_load.setText(text);
+    }
 }

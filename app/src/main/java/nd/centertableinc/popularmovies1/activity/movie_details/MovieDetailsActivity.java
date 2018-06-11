@@ -1,5 +1,6 @@
 package nd.centertableinc.popularmovies1.activity.movie_details;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -136,7 +137,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements AsyncData
                         }
                     }
 
-                    HttpUtil.navigateToUri(getBaseContext(), uri);
+                    HttpUtil.navigateToUri(MovieDetailsActivity.this, uri);
                 }
             }
         });
@@ -270,5 +271,65 @@ public class MovieDetailsActivity extends AppCompatActivity implements AsyncData
         intent.putParcelableArrayListExtra(MovieReview.PARCELABLE_NAME, (ArrayList<? extends Parcelable>) movieReviews);
 
         startActivity(intent);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        String text;
+        
+        text = title.getText().toString();
+        outState.putString("title", text);
+
+        text = voteAverage.getText().toString();
+        outState.putString("voteAverage", text);
+
+        text = popularity.getText().toString();
+        outState.putString("popularity", text);
+
+        text = origLanguage.getText().toString();
+        outState.putString("origLanguage", text);
+
+        text = origTitle.getText().toString();
+        outState.putString("origTitle", text);
+
+        text = isAdult.getText().toString();
+        outState.putString("isAdult", text);
+
+        text = overview.getText().toString();
+        outState.putString("overview", text);
+
+        text = releaseDate.getText().toString();
+        outState.putString("releaseDate", text);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedState) {
+        super.onRestoreInstanceState(savedState);
+        String text;
+
+        text = savedState.getString("title");
+        title.setText(text);
+
+        text = savedState.getString("voteAverage");
+        voteAverage.setText(text);
+
+        text = savedState.getString("popularity");
+        popularity.setText(text);
+
+        text = savedState.getString("origLanguage");
+        origLanguage.setText(text);
+
+        text = savedState.getString("origTitle");
+        origTitle.setText(text);
+
+        text = savedState.getString("isAdult");
+        isAdult.setText(text);
+
+        text = savedState.getString("overview");
+        overview.setText(text);
+
+        text = savedState.getString("releaseDate");
+        releaseDate.setText(text);
     }
 }

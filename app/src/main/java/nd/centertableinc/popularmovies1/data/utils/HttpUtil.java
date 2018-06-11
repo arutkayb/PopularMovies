@@ -70,8 +70,16 @@ public class HttpUtil{
         if(uri != null ) {
             Intent httpIntent = new Intent(Intent.ACTION_VIEW);
             httpIntent.setData(uri);
+            httpIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-            context.startActivity(httpIntent);
+            try {
+                ((AppCompatActivity) context).startActivity(httpIntent);
+            }catch (ClassCastException ex){
+                Log.e("HttpUtil", "navigateToUri, CastException ex: " + ex.toString());
+            }catch (Exception ex)
+            {
+                Log.e("HttpUtil", "navigateToUri, ex: " + ex.toString());
+            }
         }else
         {
             Log.d(context.getClass().getName(), "navigateToUri, uri is empty");

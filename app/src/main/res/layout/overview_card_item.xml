@@ -12,15 +12,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp">
+            android:layout_marginBottom="@dimen/recycler_card_margin_bottom"
+            android:layout_marginLeft="@dimen/recycler_card_margin_left"
+            android:layout_marginRight="@dimen/recycler_card_margin_right">
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/poster_image_view"
-                android:contentDescription="@null"
                 android:gravity="center"/>
 
             <TextView

@@ -56,7 +56,7 @@ public class MovieReviewsActivity extends AppCompatActivity implements RecyclerV
     @Override
     public void onCustomClickListener(int itemPosition) {
         Uri uri = Uri.parse(movieReviews.get(itemPosition).getUrl());
-        HttpUtil.navigateToUri(getBaseContext(), uri);
+        HttpUtil.navigateToUri(this, uri);
     }
 
     @Override
