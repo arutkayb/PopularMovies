@@ -150,7 +150,7 @@ public class MovieOverviewActivity extends AppCompatActivity implements Recycler
     }
 
     private int getFirstVisibleItemOfRecyclerView(){
-        return ((GridLayoutManager)recyclerView.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
+        return ((GridLayoutManager)recyclerView.getLayoutManager()).findFirstVisibleItemPosition();
     }
 
     private void setScrollToPosition(int position){
