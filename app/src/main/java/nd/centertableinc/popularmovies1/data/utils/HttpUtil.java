@@ -59,6 +59,8 @@ public class HttpUtil{
                                     listener.onDataLoad(response.body().string().toString());
                                 } catch (IOException ex) {
                                     Log.e(getClass().getName(), "onResponse IO exception: " + ex.toString());
+                                } catch (Exception ex){
+                                    Log.e(getClass().getName(), "onResponse ex: " + ex.toString());
                                 }
                             }
                         });

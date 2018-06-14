@@ -35,6 +35,11 @@ public class MovieOverviewActivity extends AppCompatActivity implements Recycler
 
     TextView movie_overview_text_nothing_to_load;
 
+    private int lastRequestedPage = 0;
+    private int lastReturnedPage = 0;
+    private int persistedScrollPosition = 0;
+    private int itemsPerLinesInGrid = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,17 +74,21 @@ public class MovieOverviewActivity extends AppCompatActivity implements Recycler
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
+        persistedScrollPosition = getFirstVisibleItemOfRecyclerView();
         setRecyclerViewLayoutManager(newConfig);
+        setScrollToPosition(persistedScrollPosition);
     }
 
     private void setRecyclerViewLayoutManager(Configuration config)
     {
         // Checks the orientation of the screen
         if (config.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
-        } else if (config.orientation == Configuration.ORIENTATION_PORTRAIT){
-            recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+            itemsPerLinesInGrid = 4;
+        } else{
+            itemsPerLinesInGrid = 2;
         }
+
+        recyclerView.setLayoutManager(new GridLayoutManager(this, itemsPerLinesInGrid));
     }
 
     private void createMovieCards(List<MovieItem> items)
@@ -92,6 +101,8 @@ public class MovieOverviewActivity extends AppCompatActivity implements Recycler
 
         for(int i = 0; i<items.size(); i++)
             movieItems.add(items.get(i));
+
+        lastReturnedPage++;
 
         movieOverviewAdapter.setMovieItems(movieItems);
         recyclerView.setAdapter(movieOverviewAdapter);
@@ -122,11 +133,31 @@ public class MovieOverviewActivity extends AppCompatActivity implements Recycler
         createMovieCards(result);
     }
 
-
     @Override
     public void itemHitListener(int itemPosition)
     {
-        overviewStateContext.getCurrentState().requestForMoviesMore(this);
+        if((lastRequestedPage == lastReturnedPage) && !isScrollOnTop()) {
+            lastRequestedPage++;
+            overviewStateContext.getCurrentState().requestForMovies(this, lastRequestedPage);
+        }
+    }
+
+    private boolean isScrollOnTop()
+    {
+        // TODO: A little bit nasty here, please find a better solution
+        boolean res = (getFirstVisibleItemOfRecyclerView() < itemsPerLinesInGrid * 2);
+        return res;
+    }
+
+    private int getFirstVisibleItemOfRecyclerView(){
+        return ((GridLayoutManager)recyclerView.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
+    }
+
+    private void setScrollToPosition(int position){
+        if(position <= 0)
+            position = 0;
+
+        recyclerView.scrollToPosition(position);
     }
 
     @Override
@@ -144,7 +175,8 @@ public class MovieOverviewActivity extends AppCompatActivity implements Recycler
             case R.id.item_most_popular:
             case R.id.item_highest_rated:
             case R.id.item_favorites:
-                loadMovies(item);
+                clearMovies();
+                loadMoviesForState(OverviewStateEnum.getById(item.getItemId()));
                 break;
             case R.id.item_refresh:
                 refreshMovies();
@@ -158,23 +190,30 @@ public class MovieOverviewActivity extends AppCompatActivity implements Recycler
 
     private void clearMovies()
     {
+        clearPageInfo();
         movieItems.clear();
         movieOverviewAdapter.setMovieItems(movieItems);
         recyclerView.setAdapter(movieOverviewAdapter);
     }
 
-    private void refreshMovies(){
-        clearMovies();
-        OverviewStateEnum state = OverviewStateEnum.getById(overviewStateContext.getCurrentState().getStateId());
+    private void loadMoviesForState(OverviewStateEnum state){
         overviewStateContext.setState(state);
-        overviewStateContext.getCurrentState().requestForMovies(this);
+        loadMovies();
     }
 
-    private void loadMovies(MenuItem item){
+    private void loadMovies(){
+        lastRequestedPage++;
+        overviewStateContext.getCurrentState().requestForMovies(this, lastRequestedPage);
+    }
+
+    private void clearPageInfo(){
+        lastRequestedPage = 0;
+        lastReturnedPage = 0;
+    }
+
+    private void refreshMovies(){
         clearMovies();
-        OverviewStateEnum state = OverviewStateEnum.getById(item.getItemId());
-        overviewStateContext.setState(state);
-        overviewStateContext.getCurrentState().requestForMovies(this);
+        loadMovies();
     }
 
     @Override
@@ -182,6 +221,7 @@ public class MovieOverviewActivity extends AppCompatActivity implements Recycler
         super.onSaveInstanceState(outState);
         String text = movie_overview_text_nothing_to_load.getText().toString();
         outState.putString("movie_overview_text_nothing_to_load", text);
+        persistedScrollPosition = getFirstVisibleItemOfRecyclerView();
     }
 
     @Override
@@ -189,5 +229,6 @@ public class MovieOverviewActivity extends AppCompatActivity implements Recycler
         super.onRestoreInstanceState(savedState);
         String text = savedState.getString("movie_overview_text_nothing_to_load");
         movie_overview_text_nothing_to_load.setText(text);
+        setScrollToPosition(persistedScrollPosition);
     }
 }

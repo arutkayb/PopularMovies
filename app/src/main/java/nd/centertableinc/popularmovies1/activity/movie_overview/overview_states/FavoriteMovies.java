@@ -28,13 +28,9 @@ public class FavoriteMovies implements OverviewState{
     }
 
     @Override
-    public void requestForMovies(AsyncDataListener listener) {
+    public void requestForMovies(AsyncDataListener listener, int page) {
+        //ignore the page and get all the movies for favorite movies
         movieData.requestForMovies(listener, 1);
-    }
-
-    @Override
-    public void requestForMoviesMore(AsyncDataListener listener) {
-        //Load all the favorite movies at once and do not ask for more
     }
 
     @Override

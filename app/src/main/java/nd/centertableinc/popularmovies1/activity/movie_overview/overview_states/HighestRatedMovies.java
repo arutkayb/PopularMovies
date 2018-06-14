@@ -10,14 +10,11 @@ import nd.centertableinc.popularmovies1.R;
 
 public class HighestRatedMovies implements OverviewState{
     public static final int stateId = R.id.item_highest_rated;
-    int currentPage;
 
     MovieData movieData;
 
     public HighestRatedMovies( MovieData movieData)
     {
-        currentPage = 1;
-
         this.movieData = movieData;
     }
 
@@ -31,15 +28,8 @@ public class HighestRatedMovies implements OverviewState{
     }
 
     @Override
-    public void requestForMovies(AsyncDataListener listener) {
-        currentPage = 1;
-        movieData.requestForMovies(listener, currentPage);
-    }
-
-    @Override
-    public void requestForMoviesMore(AsyncDataListener listener) {
-        currentPage++;
-        movieData.requestForMovies(listener, currentPage);
+    public void requestForMovies(AsyncDataListener listener, int page) {
+        movieData.requestForMovies(listener, page);
     }
 
     @Override
